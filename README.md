@@ -32,8 +32,72 @@ dynamic backward graph. To compute the gradients of a graph simple
 [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) is used. However, **only first-order derivatives are 
 supported**.
 
-# Usage
+# Overview
 
+## `Tensor`
+
+The core tensor class wraps a NumPy ndarray. The ndarray is stored in `tensor.data`, but should not be accessed 
+directly. If the tensor requires grad, `tensor.backward()` can be called to compute the gradients of the tensor and all 
+its dependencies. After `.backward()` is called the gradient of each tensor in the graph is stored in the field 
+`tensor.grad`.
+
+```python
+import autograd
+import numpy as np
+
+a = autograd.Tensor(1904, requires_grad=True)
+b = autograd.Tensor(np.ones((190, 4)))
+c = a + b
+d = 3 * c
+e = d.sum()
+e.backward()
+
+print(a.grad)
+```
+
+## `nn`
+
+ToeffiPy also implements the most common neural network operation like for example `nn.functional.linear` or 
+`nn.functional.conv_2d`. However, it is recommended to use the corresponding `nn.Module` implementation.
+
+## nn.Module
+
+ToeffiPy supports also modules as known from PyTorch. A simple feed forward neural network can be implemented as follows:
+
+```python
+import autograd
+import autograd.nn as nn
+
+class FFNN(nn.Module):
+    '''
+    This class implements a simple two layer feed forward neural network for classification.
+    '''
+
+    def __init__(self):
+        '''
+        Constructor
+        '''
+        # Call super constructor
+        super(FFNN, self).__init__()
+        # Init layers and activations
+        self.layers = nn.Sequential(
+            nn.Linear(in_features=1, out_features=16, bias=True),
+            nn.ReLU(),
+            nn.Linear(in_features=16, out_features=16, bias=True),
+            nn.ReLU(),
+            nn.Linear(in_features=16, out_features=1, bias=True)
+        )
+
+    def forward(self, input: autograd.Tensor) -> autograd.Tensor:
+        '''
+        Forward pass
+        :param input: (Tensor) Input tensor
+        :return: (Tensor) Output tensor
+        '''
+        # Perform operations
+        output = self.layers(input)
+        return output
+```
 
 # Examples
 
