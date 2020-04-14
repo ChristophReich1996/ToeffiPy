@@ -1,0 +1,70 @@
+autograd.nn package
+===================
+
+Submodules
+----------
+
+autograd.nn.activation module
+-----------------------------
+
+.. automodule:: autograd.nn.activation
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.nn.functional module
+-----------------------------
+
+.. automodule:: autograd.nn.functional
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.nn.layer module
+------------------------
+
+.. automodule:: autograd.nn.layer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.nn.lossfunction module
+-------------------------------
+
+.. automodule:: autograd.nn.lossfunction
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.nn.module module
+-------------------------
+
+.. automodule:: autograd.nn.module
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.nn.optim module
+------------------------
+
+.. automodule:: autograd.nn.optim
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.nn.parameter module
+----------------------------
+
+.. automodule:: autograd.nn.parameter
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: autograd.nn
+    :members:
+    :undoc-members:
+    :show-inheritance:

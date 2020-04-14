@@ -1,0 +1,38 @@
+autograd package
+================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    autograd.data
+    autograd.nn
+
+Submodules
+----------
+
+autograd.function module
+------------------------
+
+.. automodule:: autograd.function
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+autograd.tensor module
+----------------------
+
+.. automodule:: autograd.tensor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: autograd
+    :members:
+    :undoc-members:
+    :show-inheritance:

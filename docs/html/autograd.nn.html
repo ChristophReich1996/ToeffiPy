@@ -1,0 +1,854 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>autograd.nn package &#8212; ToeffiPy 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="autograd.data package" href="autograd.data.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="autograd-nn-package">
+<h1>autograd.nn package<a class="headerlink" href="#autograd-nn-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-autograd.nn.activation">
+<span id="autograd-nn-activation-module"></span><h2>autograd.nn.activation module<a class="headerlink" href="#module-autograd.nn.activation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="autograd.nn.activation.ELU">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">ELU</code><span class="sig-paren">(</span><em>alpha: float = 1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.activation.ELU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements a elu activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.ELU.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.ELU.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.Identity">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">Identity</code><a class="headerlink" href="#autograd.nn.activation.Identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements an identity mapping</p>
+<dl class="method">
+<dt id="autograd.nn.activation.Identity.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.Identity.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.LeakyReLU">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">LeakyReLU</code><span class="sig-paren">(</span><em>negative_slope: float = 0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.activation.LeakyReLU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements a leaky relu activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.LeakyReLU.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.LeakyReLU.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Input tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.ReLU">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">ReLU</code><a class="headerlink" href="#autograd.nn.activation.ReLU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements a ReLU activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.ReLU.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.ReLU.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.SeLU">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">SeLU</code><a class="headerlink" href="#autograd.nn.activation.SeLU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements a SeLU activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.SeLU.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.SeLU.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.Sigmoid">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">Sigmoid</code><a class="headerlink" href="#autograd.nn.activation.Sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements a sigmoid activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.Sigmoid.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.Sigmoid.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.Softmax">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">Softmax</code><span class="sig-paren">(</span><em>axis: int = 1</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.activation.Softmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Class implements the softmax activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.Softmax.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.Softmax.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.Softplus">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">Softplus</code><a class="headerlink" href="#autograd.nn.activation.Softplus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>This class implements a softplus activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.Softplus.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.Softplus.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.activation.Tanh">
+<em class="property">class </em><code class="descclassname">autograd.nn.activation.</code><code class="descname">Tanh</code><a class="headerlink" href="#autograd.nn.activation.Tanh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of the tanh activation module</p>
+<dl class="method">
+<dt id="autograd.nn.activation.Tanh.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.activation.Tanh.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn.functional">
+<span id="autograd-nn-functional-module"></span><h2>autograd.nn.functional module<a class="headerlink" href="#module-autograd.nn.functional" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="autograd.nn.functional.avg_pool_1d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">avg_pool_1d</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor</em>, <em>kernel_size: int</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.avg_pool_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements a 1d average pooling operation in autograd
+:param tensor: (Tensor) Input tensor
+:param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.avg_pool_2d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">avg_pool_2d</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor, kernel_size: Tuple[int, int]</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.avg_pool_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements the 2d average pooling operation in autograd
+:param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
+:param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.batch_norm_1d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">batch_norm_1d</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor</em>, <em>gamma: autograd.tensor.Tensor = None</em>, <em>beta: autograd.tensor.Tensor = None</em>, <em>mean: autograd.tensor.Tensor = None</em>, <em>std: autograd.tensor.Tensor = None</em>, <em>eps: float = 1e-05</em>, <em>return_mean_and_std: bool = True</em><span class="sig-paren">)</span> &#x2192; Union[autograd.tensor.Tensor, Tuple[autograd.tensor.Tensor, autograd.tensor.Tensor, autograd.tensor.Tensor]]<a class="headerlink" href="#autograd.nn.functional.batch_norm_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function implements a batch normalization operation
+:param tensor: (Tensor) Input tensor
+:param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
+:param beta: (Tensor) Leanable beta factor which is added to the output
+:param mean: (Tensor) Mean for normalization
+:param std: (Tensor) Variance for normalization
+:param eps: (float) Constant for numerical stability
+:param return_mean_and_std: (bool) If true mean and std gets returned
+:return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.batch_norm_2d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">batch_norm_2d</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor</em>, <em>gamma: autograd.tensor.Tensor = None</em>, <em>beta: autograd.tensor.Tensor = None</em>, <em>mean: autograd.tensor.Tensor = None</em>, <em>std: autograd.tensor.Tensor = None</em>, <em>eps: float = 1e-05</em>, <em>return_mean_and_std: bool = True</em><span class="sig-paren">)</span> &#x2192; Union[autograd.tensor.Tensor, Tuple[autograd.tensor.Tensor, autograd.tensor.Tensor, autograd.tensor.Tensor]]<a class="headerlink" href="#autograd.nn.functional.batch_norm_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function implements a 2d batch normalization operation
+:param tensor: (Tensor) Input tensor
+:param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
+:param beta: (Tensor) Leanable beta factor which is added to the output
+:param mean: (Tensor) Mean for normalization
+:param std: (Tensor) Variance for normalization
+:param eps: (float) Constant for numerical stability
+:param return_mean_and_std: (bool) If true mean and std gets returned
+:return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.binary_cross_entropy_loss">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">binary_cross_entropy_loss</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em>, <em>reduction: str = 'mean'</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.binary_cross_entropy_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements the binary cross entropy loss in autograd
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.conv_1d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">conv_1d</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em>, <em>kernel: autograd.tensor.Tensor</em>, <em>bias: autograd.tensor.Tensor = None</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.conv_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements a 1d convolution (cross-correlation) in autograd
+:param input: (Tensor) Input tensor of shape (batch size, input channels, input features)
+:param kernel: (Tensor) Kernel tensor of shape (output channels, input channels, kernel size)
+:param bias: (Tensor) Bias tensor of shape (output channels)
+:return: (Tensor) Output tensor of shape (batch size, output channels, output features)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.conv_2d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">conv_2d</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em>, <em>kernel: autograd.tensor.Tensor</em>, <em>bias: autograd.tensor.Tensor = None</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.conv_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements a 2d convolution (cross-correlation) in autograd
+:param input: (Tensor) Input tensor of shape (batch size, input channels, height, width)
+:param kernel: (Tensor) Kernel of shape (output channels, input channels, kernel size, kernel size)
+:param bias: (Tensor) Bias tensor of shape (output channels)
+:return: (Tensor) Output tensor (batch size, output channels, height - kernel size + 1, width - kernel size + 1)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.cross_entropy_loss">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">cross_entropy_loss</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em>, <em>reduction: str = 'mean'</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.cross_entropy_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function implements the multi class cross entropy loss in autograd
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.dropout">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">dropout</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor</em>, <em>p: float = 0.2</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.dropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method performs dropout with a autograd tensor.
+:param tensor: (Tensor) Input tensor
+:param p: (float) Probability that a activation element is set to zero
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.l1_loss">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">l1_loss</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em>, <em>reduction: str = 'mean'</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.l1_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function implements the l1 loss in autograd
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.linear">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">linear</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em>, <em>weight: autograd.tensor.Tensor</em>, <em>bias: autograd.tensor.Tensor = None</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.linear" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements a linear layer in autograd
+:param input: (Tensor) Input tensor of shape (batch size, <a href="#id1"><span class="problematic" id="id2">*</span></a>, input features). * various number of channels
+:param weight: (Tensor) Weight tensor of shape (output features, input features)
+:param bias: (Tensor) Bias tensor of shape (output features)
+:return: (Tensor) Output tensor of shape (batch size, <a href="#id3"><span class="problematic" id="id4">*</span></a>, output features)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.max_pool_1d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">max_pool_1d</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor</em>, <em>kernel_size: int</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.max_pool_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements a 1d max pooling operation in autograd
+:param tensor: (Tensor) Input tensor
+:param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.max_pool_2d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">max_pool_2d</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor, kernel_size: Tuple[int, int]</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.max_pool_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements the 2d max pooling operation in autograd
+:param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
+:param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.mse_loss">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">mse_loss</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em>, <em>reduction: str = 'mean'</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.mse_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function implements the mean squared error loss in autograd
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.softmax">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">softmax</code><span class="sig-paren">(</span><em>tensor: autograd.tensor.Tensor</em>, <em>axis: int = 1</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.softmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements the softmax activation in autograd
+:param tensor: (Tensor) Input tensor
+:param axis: (int) Axis to apply softmax
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.softmax_cross_entropy_loss">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">softmax_cross_entropy_loss</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em>, <em>reduction: str = 'mean'</em>, <em>axis: int = 1</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.softmax_cross_entropy_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function implements the softmax multi class cross entropy loss in autograd
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
+:param axis: (int) Axis to apply softmax
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.upsampling_nearest_1d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">upsampling_nearest_1d</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em>, <em>scale_factor: int = 2</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.upsampling_nearest_1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements nearest neighbour upsampling in autograd
+:param input: (Tensor) Input tensor of shape (batch size, channels, features)
+:param scale_factor: (int) Scaling factor
+:return: (Tensor) Output tensor of shape (batch size, channels, scale factor * features)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="autograd.nn.functional.upsampling_nearest_2d">
+<code class="descclassname">autograd.nn.functional.</code><code class="descname">upsampling_nearest_2d</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em>, <em>scale_factor: int = 2</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.functional.upsampling_nearest_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function implements 2d nearest neighbour upsampling in autograd
+:param input: (Tensor) Input tensor of shape (batch size, channels, height, width)
+:param scale_factor: (int) Scaling factor
+:return: (Tensor) Output tensor of shape (batch size, channels, height * scale factor, width * scale factor)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn.layer">
+<span id="autograd-nn-layer-module"></span><h2>autograd.nn.layer module<a class="headerlink" href="#module-autograd.nn.layer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="autograd.nn.layer.AvgPool1d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">AvgPool1d</code><span class="sig-paren">(</span><em>kernel_size: int = 2</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.AvgPool1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Class implements a 1d max-pooling operation module</p>
+<dl class="method">
+<dt id="autograd.nn.layer.AvgPool1d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.AvgPool1d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.AvgPool2d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">AvgPool2d</code><span class="sig-paren">(</span><em>kernel_size: Union[int, Tuple[int, int]]</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.AvgPool2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a 2d avg-pooling module in autograd</p>
+<dl class="method">
+<dt id="autograd.nn.layer.AvgPool2d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.AvgPool2d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor of shape (batch size, channels, height, width)
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.BatchNorm1d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">BatchNorm1d</code><span class="sig-paren">(</span><em>num_channels: int</em>, <em>eps: float = 1e-05</em>, <em>momentum=0.1</em>, <em>affine: bool = True</em>, <em>track_running_stats: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.BatchNorm1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Class implements a batch normalization layer</p>
+<dl class="method">
+<dt id="autograd.nn.layer.BatchNorm1d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.BatchNorm1d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward method
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.Conv1d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">Conv1d</code><span class="sig-paren">(</span><em>in_channels: int</em>, <em>out_channels: int</em>, <em>kernel_size: int = 3</em>, <em>padding: int = None</em>, <em>bias: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.Conv1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a 1d convolution layer.</p>
+<dl class="method">
+<dt id="autograd.nn.layer.Conv1d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.Conv1d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.Conv2d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">Conv2d</code><span class="sig-paren">(</span><em>in_channels: int, out_channels: int, kernel_size: Union[int, Tuple[int, int]], padding: Union[int, Tuple[int, int]] = None, bias: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.Conv2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a 2d convolution in autograd</p>
+<dl class="method">
+<dt id="autograd.nn.layer.Conv2d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.Conv2d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor of shape (batch size, in channels, height, width)
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.Dropout">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">Dropout</code><span class="sig-paren">(</span><em>p: float = 0.2</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.Dropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Class implements a dropout layer</p>
+<dl class="method">
+<dt id="autograd.nn.layer.Dropout.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.Dropout.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.Linear">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">Linear</code><span class="sig-paren">(</span><em>in_features: int</em>, <em>out_features: int</em>, <em>bias: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.Linear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a linear layer.</p>
+<dl class="method">
+<dt id="autograd.nn.layer.Linear.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.Linear.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor of shape (batch size, <a href="#id5"><span class="problematic" id="id6">*</span></a>, input features), * various and optional dimension
+:return: (Tensor) Output tensor of shape (batch size, <a href="#id7"><span class="problematic" id="id8">*</span></a>, output features), * various and optional dimension</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.MaxPool1d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">MaxPool1d</code><span class="sig-paren">(</span><em>kernel_size: int = 2</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.MaxPool1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Class implements a 1d max-pooling operation module</p>
+<dl class="method">
+<dt id="autograd.nn.layer.MaxPool1d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.MaxPool1d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.MaxPool2d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">MaxPool2d</code><span class="sig-paren">(</span><em>kernel_size: Union[int, Tuple[int, int]]</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.MaxPool2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a 2d max-pooling module in autograd</p>
+<dl class="method">
+<dt id="autograd.nn.layer.MaxPool2d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.MaxPool2d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor of shape (batch size, channels, height, width)
+:return: (Tensor) Output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.UpsamplingNearest1d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">UpsamplingNearest1d</code><span class="sig-paren">(</span><em>scale_factor: int = 2</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.UpsamplingNearest1d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a nearest neighbour upsampling module.</p>
+<dl class="method">
+<dt id="autograd.nn.layer.UpsamplingNearest1d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.UpsamplingNearest1d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Upscaled output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.layer.UpsamplingNearest2d">
+<em class="property">class </em><code class="descclassname">autograd.nn.layer.</code><code class="descname">UpsamplingNearest2d</code><span class="sig-paren">(</span><em>scale_factor: int = 2</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.layer.UpsamplingNearest2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+<p>Implementation of a nearest neighbour upsampling module.</p>
+<dl class="method">
+<dt id="autograd.nn.layer.UpsamplingNearest2d.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.layer.UpsamplingNearest2d.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass
+:param input: (Tensor) Input tensor
+:return: (Tensor) Upscaled output tensor</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn.lossfunction">
+<span id="autograd-nn-lossfunction-module"></span><h2>autograd.nn.lossfunction module<a class="headerlink" href="#module-autograd.nn.lossfunction" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="autograd.nn.lossfunction.BinaryCrossEntropyLoss">
+<em class="property">class </em><code class="descclassname">autograd.nn.lossfunction.</code><code class="descname">BinaryCrossEntropyLoss</code><span class="sig-paren">(</span><em>reduction: str = 'mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.lossfunction.BinaryCrossEntropyLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.lossfunction.Loss" title="autograd.nn.lossfunction.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.lossfunction.Loss</span></code></a></p>
+<p>This class implements the binary class cross entropy loss</p>
+<dl class="method">
+<dt id="autograd.nn.lossfunction.BinaryCrossEntropyLoss.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.lossfunction.BinaryCrossEntropyLoss.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass computes loss
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.lossfunction.CrossEntropyLoss">
+<em class="property">class </em><code class="descclassname">autograd.nn.lossfunction.</code><code class="descname">CrossEntropyLoss</code><span class="sig-paren">(</span><em>reduction: str = 'mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.lossfunction.CrossEntropyLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.lossfunction.Loss" title="autograd.nn.lossfunction.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.lossfunction.Loss</span></code></a></p>
+<p>This class implements the multi class cross entropy loss</p>
+<dl class="method">
+<dt id="autograd.nn.lossfunction.CrossEntropyLoss.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.lossfunction.CrossEntropyLoss.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass computes loss
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.lossfunction.L1Loss">
+<em class="property">class </em><code class="descclassname">autograd.nn.lossfunction.</code><code class="descname">L1Loss</code><span class="sig-paren">(</span><em>reduction: str = 'mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.lossfunction.L1Loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.lossfunction.Loss" title="autograd.nn.lossfunction.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.lossfunction.Loss</span></code></a></p>
+<p>This class implements the L1 loss as a module</p>
+<dl class="method">
+<dt id="autograd.nn.lossfunction.L1Loss.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.lossfunction.L1Loss.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass computes loss
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.lossfunction.Loss">
+<em class="property">class </em><code class="descclassname">autograd.nn.lossfunction.</code><code class="descname">Loss</code><span class="sig-paren">(</span><em>reduction: str = 'mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.lossfunction.Loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">module.Module</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.lossfunction.MSELoss">
+<em class="property">class </em><code class="descclassname">autograd.nn.lossfunction.</code><code class="descname">MSELoss</code><span class="sig-paren">(</span><em>reduction: str = 'mean'</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.lossfunction.MSELoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.lossfunction.Loss" title="autograd.nn.lossfunction.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.lossfunction.Loss</span></code></a></p>
+<p>This class implements the mean squared error loss as a module</p>
+<dl class="method">
+<dt id="autograd.nn.lossfunction.MSELoss.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.lossfunction.MSELoss.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass computes loss
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.lossfunction.SoftmaxCrossEntropyLoss">
+<em class="property">class </em><code class="descclassname">autograd.nn.lossfunction.</code><code class="descname">SoftmaxCrossEntropyLoss</code><span class="sig-paren">(</span><em>reduction: str = 'mean'</em>, <em>axis: int = 1</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.lossfunction.SoftmaxCrossEntropyLoss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.lossfunction.Loss" title="autograd.nn.lossfunction.Loss"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.lossfunction.Loss</span></code></a></p>
+<p>This class implements the multi class softmax cross entropy loss. This module should be used over softmax + CEL
+because of better numerical stability.</p>
+<dl class="method">
+<dt id="autograd.nn.lossfunction.SoftmaxCrossEntropyLoss.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>prediction: autograd.tensor.Tensor</em>, <em>label: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.lossfunction.SoftmaxCrossEntropyLoss.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pass computes loss
+:param prediction: (Tensor) Prediction tensor
+:param label: (Tensor) One hot encoded label tensor
+:return: (Tensor) Loss value</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn.module">
+<span id="autograd-nn-module-module"></span><h2>autograd.nn.module module<a class="headerlink" href="#module-autograd.nn.module" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="autograd.nn.module.Module">
+<em class="property">class </em><code class="descclassname">autograd.nn.module.</code><code class="descname">Module</code><a class="headerlink" href="#autograd.nn.module.Module" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Super class of an autograd module</p>
+<dl class="method">
+<dt id="autograd.nn.module.Module.count_params">
+<code class="descname">count_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#autograd.nn.module.Module.count_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method returns the number of learnable parameters present in the module.
+:return: (int) Number of learnable parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="autograd.nn.module.Module.eval">
+<code class="descname">eval</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.module.Module.eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method sets train flag of all modules to false.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="autograd.nn.module.Module.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>*input</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.module.Module.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward method to be implemented in children class
+:param input: (Tensor or different object) Inputs
+:return: (Tensor) Outputs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="autograd.nn.module.Module.parameters">
+<code class="descname">parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator[parameter.Parameter]<a class="headerlink" href="#autograd.nn.module.Module.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method returns all parameters included in the module
+:return: (Iterator[Parameter]) Iterator including all parameters</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="autograd.nn.module.Module.train">
+<code class="descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.module.Module.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method sets train flag of all modules to true.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="autograd.nn.module.Module.zero_grad">
+<code class="descname">zero_grad</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.module.Module.zero_grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method zeros gradient of all parameters</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.module.Sequential">
+<em class="property">class </em><code class="descclassname">autograd.nn.module.</code><code class="descname">Sequential</code><span class="sig-paren">(</span><em>*modules</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.module.Sequential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.module.Module" title="autograd.nn.module.Module"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.module.Module</span></code></a></p>
+<p>Sequential model class</p>
+<dl class="method">
+<dt id="autograd.nn.module.Sequential.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>input: autograd.tensor.Tensor</em><span class="sig-paren">)</span> &#x2192; autograd.tensor.Tensor<a class="headerlink" href="#autograd.nn.module.Sequential.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward method
+:param input: (Tensor) Inputs
+:return: (Tensor) Outputs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="autograd.nn.module.Sequential.parameters">
+<code class="descname">parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator[parameter.Parameter]<a class="headerlink" href="#autograd.nn.module.Sequential.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method returns all parameters included in the module
+:return: (Iterator[Parameter]) Iterator including all parameters</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn.optim">
+<span id="autograd-nn-optim-module"></span><h2>autograd.nn.optim module<a class="headerlink" href="#module-autograd.nn.optim" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="autograd.nn.optim.Adam">
+<em class="property">class </em><code class="descclassname">autograd.nn.optim.</code><code class="descname">Adam</code><span class="sig-paren">(</span><em>parameters: Callable[[], Iterator[parameter.Parameter]], lr: float = 0.001, beta_1: float = 0.9, beta_2: float = 0.999, eps: float = 1e-08</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.optim.Adam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.optim.Optimizer" title="autograd.nn.optim.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.optim.Optimizer</span></code></a></p>
+<dl class="method">
+<dt id="autograd.nn.optim.Adam.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.optim.Adam.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method performs optimization step</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.optim.Optimizer">
+<em class="property">class </em><code class="descclassname">autograd.nn.optim.</code><code class="descname">Optimizer</code><span class="sig-paren">(</span><em>parameters: Callable[[], Iterator[parameter.Parameter]]</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.optim.Optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Super class of optimizer</p>
+<dl class="method">
+<dt id="autograd.nn.optim.Optimizer.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.optim.Optimizer.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimization step method</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.optim.RMSprop">
+<em class="property">class </em><code class="descclassname">autograd.nn.optim.</code><code class="descname">RMSprop</code><span class="sig-paren">(</span><em>parameters: Callable[[], Iterator[parameter.Parameter]], lr: float = 0.01, alpha: float = 0.99, eps=1e-08</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.optim.RMSprop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.optim.Optimizer" title="autograd.nn.optim.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.optim.Optimizer</span></code></a></p>
+<p>Root mean squared prop optimizer implementation</p>
+<dl class="method">
+<dt id="autograd.nn.optim.RMSprop.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.optim.RMSprop.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method performs optimization step</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.optim.SGD">
+<em class="property">class </em><code class="descclassname">autograd.nn.optim.</code><code class="descname">SGD</code><span class="sig-paren">(</span><em>parameters: Callable[[], Iterator[parameter.Parameter]], lr: float = 0.01</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.optim.SGD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.optim.Optimizer" title="autograd.nn.optim.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.optim.Optimizer</span></code></a></p>
+<p>Class implements a stochastic gradient decent optimizer</p>
+<dl class="method">
+<dt id="autograd.nn.optim.SGD.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.optim.SGD.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method performs optimization step</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="autograd.nn.optim.SGDMomentum">
+<em class="property">class </em><code class="descclassname">autograd.nn.optim.</code><code class="descname">SGDMomentum</code><span class="sig-paren">(</span><em>parameters: Callable[[], Iterator[parameter.Parameter]], lr: float = 0.01, momentum: float = 0.9</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.optim.SGDMomentum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#autograd.nn.optim.Optimizer" title="autograd.nn.optim.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.nn.optim.Optimizer</span></code></a></p>
+<dl class="method">
+<dt id="autograd.nn.optim.SGDMomentum.step">
+<code class="descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#autograd.nn.optim.SGDMomentum.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method performs optimization step</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn.parameter">
+<span id="autograd-nn-parameter-module"></span><h2>autograd.nn.parameter module<a class="headerlink" href="#module-autograd.nn.parameter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="autograd.nn.parameter.Parameter">
+<em class="property">class </em><code class="descclassname">autograd.nn.parameter.</code><code class="descname">Parameter</code><span class="sig-paren">(</span><em>*shape</em>, <em>data: numpy.ndarray = None</em><span class="sig-paren">)</span><a class="headerlink" href="#autograd.nn.parameter.Parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="autograd.html#autograd.tensor.Tensor" title="autograd.tensor.Tensor"><code class="xref py py-class docutils literal notranslate"><span class="pre">autograd.tensor.Tensor</span></code></a></p>
+<p>Implementation of a nn Parameter which always requires grad.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-autograd.nn">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-autograd.nn" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ToeffiPy</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ToeffiPy</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="autograd.html">autograd package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">ToeffiPy</a><ul>
+  <li><a href="autograd.html">autograd package</a><ul>
+      <li>Previous: <a href="autograd.data.html" title="previous chapter">autograd.data package</a></li>
+      <li>Next: <a href="setup.html" title="next chapter">setup module</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Christoph Reich.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/autograd.nn.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

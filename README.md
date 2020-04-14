@@ -9,6 +9,9 @@ The main purpose of this library is educational. ToeffiPy should give an inside 
 learning library works. To implement operations like a convolution as low level as possible, but also efficient, NumPy 
 was chosen. Since NumPy is highly optimized, ToeffiPy is suitable for small machine learning projects.
 
+
+**The full documentation can be found in `docs/html/index.html`.**
+
 Example use:
 ```python
 import autograd
