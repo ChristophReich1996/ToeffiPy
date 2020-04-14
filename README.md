@@ -147,3 +147,7 @@ class FFNN(nn.Module):
 1. Clone repository `git clone https://github.com/ChristophReich1996/ToeffiPy`
 2. Navigate to setup.py `cd ToeffiPy`
 3. Install `python setup.py install`
+
+# Data
+
+The mnist dataset used in example 1. & 2. is a subset from the original [mnist dataset by Yann LeCun et al.](http://yann.lecun.com/exdb/mnist/).
