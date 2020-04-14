@@ -34,6 +34,35 @@ supported**.
 
 # Overview
 
+ToeffiPy contains of the following modules:
+
+```
+ToeffiPy
+└───autograd
+    │   function.py
+    │   tensor.py
+    │   __init__.py
+    │
+    ├───data
+    │   │   dataloader.py
+    │   │   dataset.py
+    │   │   __init__.py
+    │
+    └───nn
+        │   activation.py
+        │   functional.py
+        │   layer.py
+        │   lossfunction.py
+        │   module.py
+        │   optim.py
+        │   parameter.py
+        │   __init__.py
+```
+
+ToeffiPy implements all core tensor operations like a simple addition or a matrix multiplication.
+The nn package also implements all commonly used 1D and 2D neural network operations like a 2D convolution or batch 
+normalization.
+
 ## `Tensor`
 
 The core tensor class wraps a NumPy ndarray. The ndarray is stored in `tensor.data`, but should not be accessed 
@@ -112,3 +141,6 @@ class FFNN(nn.Module):
 
 # Installation
 
+1. Clone repository `git clone https://github.com/ChristophReich1996/ToeffiPy`
+2. Navigate to setup.py `cd ToeffiPy`
+3. Install `python setup.py install`
