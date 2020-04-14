@@ -124,7 +124,7 @@ def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
 
 def max_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
     '''
-    This function implements the max pooling operation in autograd
+    This function implements the 2d max pooling operation in autograd
     :param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
     :param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
     :return: (Tensor) Output tensor
@@ -132,7 +132,9 @@ def max_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
     # Check input dimensions
     assert tensor.data.ndim == 4, 'Input tensor must have four dimensions (batch size, channels, features).'
     # Check kernel size
-    assert kernel_size[0] % 2 == 0 and kernel_size[1] % 2 == 0, 'Kernel size must be odd'
+    assert kernel_size[0] % 2 == 0 and kernel_size[1] % 2 == 0, 'Kernel size must be odd!'
+    # Check tensor shape
+    assert tensor.shape[2] % 2 == 0 and tensor.shape[3] % 2 == 0, 'Tensor height and width must be odd!'
     # Get shape
     batch_size, channels, height, width = tensor.shape
     # Calc factors
@@ -164,6 +166,120 @@ def max_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
 
         # Make dependencies
         dependencies = [Dependency(activation=tensor, grad_fn=grad_max_pool_2d)]
+    else:
+        dependencies = None
+    return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
+
+
+def avg_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
+    '''
+    This function implements the 2d average pooling operation in autograd
+    :param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
+    :param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
+    :return: (Tensor) Output tensor
+    '''
+    # Check input dimensions
+    assert tensor.data.ndim == 4, 'Input tensor must have four dimensions (batch size, channels, features).'
+    # Check kernel size
+    assert kernel_size[0] % 2 == 0 and kernel_size[1] % 2 == 0, 'Kernel size must be odd!'
+    # Check tensor shape
+    assert tensor.shape[2] % 2 == 0 and tensor.shape[3] % 2 == 0, 'Tensor height and width must be odd!'
+    # Get shape
+    batch_size, channels, height, width = tensor.shape
+    # Calc factors
+    height_factor = height // kernel_size[0]
+    width_factor = width // kernel_size[1]
+    # Perform max pooling
+    input_reshaped = tensor.data[:, :, :height_factor * kernel_size[0], :width_factor * kernel_size[1]] \
+        .reshape(batch_size, channels, height_factor, kernel_size[0], width_factor, kernel_size[1])
+    output = input_reshaped.mean(axis=(3, 5))
+    # Check grad
+    requires_grad = tensor.requires_grad
+    # Add backward function if needed
+    if requires_grad:
+        # Make gradient function
+        def grad_avg_pool_2d(grad: np.ndarray) -> np.ndarray:
+            '''
+            Computes the gradient
+            :param grad: (np.ndarray) Original gradient
+            :return: (np.ndarray) Final gradient
+            '''
+            # Repeat gradient by kernel size
+            unpooled_grad = np.repeat(np.repeat(grad.data, kernel_size[0], axis=2), kernel_size[1], axis=3)
+            # Mask out not used elements
+            grad = (1 / (kernel_size[0] * kernel_size[1])) * unpooled_grad
+            return grad
+
+        # Make dependencies
+        dependencies = [Dependency(activation=tensor, grad_fn=grad_avg_pool_2d)]
+    else:
+        dependencies = None
+    return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
+
+
+def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mean: Tensor = None, std: Tensor = None,
+                  eps: float = 1e-05, return_mean_and_std: bool = True) -> Union[Tensor, Tuple[Tensor, Tensor, Tensor]]:
+    '''
+    Function implements a 2d batch normalization operation
+    :param tensor: (Tensor) Input tensor
+    :param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
+    :param beta: (Tensor) Leanable beta factor which is added to the output
+    :param mean: (Tensor) Mean for normalization
+    :param std: (Tensor) Variance for normalization
+    :param eps: (float) Constant for numerical stability
+    :param return_mean_and_std: (bool) If true mean and std gets returned
+    :return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor
+    '''
+    # Compute mean and std if not given
+    if mean is None:
+        mean = tensor.mean()
+    if std is None:
+        std = tensor.std()
+    # Apply normalization
+    output = (tensor - mean) / (std + eps)
+    # Apply learnable parameters if given
+    if gamma is not None:
+        output = output * gamma.unsqueeze(dim=0).unsqueeze(dim=-1).unsqueeze(dim=-1)
+    if beta is not None:
+        output = output + beta.unsqueeze(dim=0).unsqueeze(dim=-1).unsqueeze(dim=-1)
+    if return_mean_and_std:
+        return output, mean, std
+    return output
+
+
+def upsampling_nearest_2d(input: Tensor, scale_factor: int = 2) -> Tensor:
+    '''
+    This function implements 2d nearest neighbour upsampling in autograd
+    :param input: (Tensor) Input tensor of shape (batch size, channels, height, width)
+    :param scale_factor: (int) Scaling factor
+    :return: (Tensor) Output tensor of shape (batch size, channels, height * scale factor, width * scale factor)
+    '''
+    # Check parameter
+    assert scale_factor > 0, 'Scale factor must be greater than zero.'
+    # Upsampling
+    output = np.repeat(np.repeat(input.data, scale_factor, axis=-1), scale_factor, axis=-2)
+    # Check grad
+    requires_grad = input.requires_grad
+    # Add backward function if needed
+    if requires_grad:
+        # Make gradient function
+        def grad_upsampling_nearest_2d(grad: np.ndarray) -> np.ndarray:
+            '''
+            Computes the gradient
+            :param grad: (np.ndarray) Original gradient
+            :return: (np.ndarray) Final gradient
+            '''
+            # Backward pass as max pooling
+            height_factor = grad.shape[2] // scale_factor
+            width_factor = grad.shape[2] // scale_factor
+            # Perform max pooling
+            grad_reshaped = grad.data[:, :, :height_factor * scale_factor, :width_factor * scale_factor] \
+                .reshape(grad.shape[0], grad.shape[1], height_factor, scale_factor, width_factor, scale_factor)
+            grad = grad_reshaped.max(axis=(3, 5))
+            return grad
+
+        # Make dependencies
+        dependencies = [Dependency(activation=input, grad_fn=grad_upsampling_nearest_2d)]
     else:
         dependencies = None
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
