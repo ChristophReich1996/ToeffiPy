@@ -42,17 +42,20 @@ its dependencies. After `.backward()` is called the gradient of each tensor in t
 `tensor.grad`.
 
 ```python
-import autograd
-import numpy as np
-
-a = autograd.Tensor(1904, requires_grad=True)
-b = autograd.Tensor(np.ones((190, 4)))
-c = a + b
-d = 3 * c
-e = d.sum()
-e.backward()
-
-print(a.grad)
+>>> import autograd
+>>> import numpy as np
+>>> 
+>>> a = autograd.Tensor(1904, requires_grad=True)
+>>> b = autograd.Tensor(np.ones((190, 4)))
+>>> c = a + b
+>>> d = 3 * c
+>>> e = d.sum()
+>>> e.backward()
+>>>
+>>> print(a.grad)
+Tensor(2280.0, requires_grad=False, shape=())
+>>> print(c.grad[0, 0])
+Tensor(3.0, requires_grad=False, shape=())
 ```
 
 ## `nn`
