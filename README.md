@@ -150,4 +150,4 @@ class FFNN(nn.Module):
 
 # Data
 
-The mnist dataset used in example 1. & 2. is a subset from the original [mnist dataset by Yann LeCun et al.](http://yann.lecun.com/exdb/mnist/).
+The mnist dataset used in the examples is a subset from the original [mnist dataset by Yann LeCun et al.](http://yann.lecun.com/exdb/mnist/).
