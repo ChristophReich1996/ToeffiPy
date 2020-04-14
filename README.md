@@ -105,7 +105,7 @@ import autograd.nn as nn
 
 class FFNN(nn.Module):
     '''
-    This class implements a simple two layer feed forward neural network for classification.
+    This class implements a simple feed forward neural network.
     '''
 
     def __init__(self):
