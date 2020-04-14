@@ -63,7 +63,7 @@ Tensor(3.0, requires_grad=False, shape=())
 ToeffiPy also implements the most common neural network operation like for example `nn.functional.linear` or 
 `nn.functional.conv_2d`. However, it is recommended to use the corresponding `nn.Module` implementation.
 
-## nn.Module
+## `nn.Module`
 
 ToeffiPy supports also modules as known from PyTorch. A simple feed forward neural network can be implemented as follows:
 
