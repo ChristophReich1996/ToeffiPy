@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Union, Optional, Callable, Tuple
+from typing import List, Union, Optional, Callable, Tuple, Dict
 from dataclasses import dataclass
 
 import numpy as np
@@ -944,3 +944,27 @@ def flatten(tensor: Tensor, starting_dim: int = 1) -> Tensor:
     else:
         dependencies = None
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
+
+
+def save(tensor: Union[Tensor, Dict[str, Tensor]], path: str) -> None:
+    '''
+    Function save an autograd tensor or a dict of autograd tensors
+    :param tensor: (Tensor, Dict[str, Tensor]) Tensor or dict of tensors
+    :param path: (str) Path and file name to store object
+    '''
+    # Case if a simple tensor is given
+    if isinstance(tensor, Tensor):
+        np.save(path, tensor.data)
+    # Case if dict of tensors is given
+    else:
+        np.savez(path, **tensor)
+
+
+def load(path: str) -> Union[Tensor, np.lib.npyio.NpzFile]:
+    '''
+    Function loads single tensor or a dict of tensors previously saved as .np or .npz.
+    :param path: (str) Path to file to be loaded
+    :return: (Tensor, np.lib.npyio.NpzFile) Loaded tensor or dict (NpzFile) of tensors
+    '''
+    # Load
+    return np.load(path)

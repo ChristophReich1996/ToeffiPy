@@ -1,6 +1,7 @@
-from typing import Iterator, Any
+from typing import Iterator, Any, Dict, Union
 
 import inspect
+import numpy as np
 
 from autograd.tensor import Tensor
 from parameter import Parameter
@@ -55,6 +56,30 @@ class Module(object):
             elif isinstance(value, Module):
                 # Call parameters method again
                 yield from value.parameters()
+
+    def state_dict(self, return_data: bool = True) -> Dict[str, Union[Tensor, np.ndarray]]:
+        # Init state dict
+        state_dict = dict()
+        # Get parameters
+        for parameter in self.parameters():
+            # Put parameter into dict
+            if return_data:
+                state_dict[str(len(state_dict))] = parameter.data
+            else:
+                state_dict[str(len(state_dict))] = parameter
+        return state_dict
+
+    def load_state_dict(self, state_dict: np.lib.npyio.NpzFile) -> None:
+        '''
+        Function loads a state dict
+        :param state_dict: (np.lib.npyio.NpzFile) State dict as a NpzFile to be loaded
+        '''
+        # Loop over state dict and parameters
+        for name, parameter in zip(state_dict.files, self.parameters()):
+            # Check sizes
+            assert state_dict[name].shape == parameter.shape, 'Error while loading state dict.'
+            # Set data
+            parameter.data = state_dict[name]
 
     def zero_grad(self) -> None:
         '''

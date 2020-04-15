@@ -132,6 +132,8 @@ if __name__ == '__main__':
     dataloader_train = autograd.data.DataLoader(dataset=MNIST(), batch_size=32, shuffle=True)
     # Init neural network
     neural_network = NeuralNetwork()
+    # Load pre trained model if needed
+    # neural_network.load_state_dict(autograd.load('mnist_conv.npz'))
     # Print number of model parameters
     print('Model parameter', neural_network.count_params(), flush=True)
     # Init loss function
@@ -181,3 +183,5 @@ if __name__ == '__main__':
         correctly_classified += ((prediction == label).sum() == prediction.shape[2])
     # Print accuracy
     print('Accuracy=', str(correctly_classified / len(dataloader_test)), flush=True)
+    # Save model
+    autograd.save(neural_network.state_dict(), 'mnist_conv.npz')
