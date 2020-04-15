@@ -557,6 +557,8 @@ def sum(tensor: Tensor, axis: int = None, keepdims: bool = False) -> Tensor:
     :param keepdims: (bool) If true summed up dimensions are retained
     :return: (Tensor) Output tensor (scalar)
     '''
+    # Save originale shape
+    original_shape = tensor.shape
     # Perform summation
     output = tensor.data.sum(axis=axis, keepdims=keepdims)
     # Check grad
@@ -570,7 +572,7 @@ def sum(tensor: Tensor, axis: int = None, keepdims: bool = False) -> Tensor:
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
             '''
-            return grad * np.ones_like(tensor.data)
+            return grad * np.ones(original_shape)
 
         # Make dependencies
         dependencies = [Dependency(activation=tensor, grad_fn=grad_sum)]
