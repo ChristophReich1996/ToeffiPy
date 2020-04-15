@@ -132,6 +132,13 @@ class FFNN(nn.Module):
         # Perform operations
         output = self.layers(input)
         return output
+
+# Init model
+ffnn = FFNN()
+# Save model
+autograd.save(ffnn.state_dict(), 'ffnn.npz')
+# Load model
+ffnn.load_state_dict(autograd.load('ffnn.npz'))
 ```
 
 # Examples
