@@ -5,7 +5,6 @@ from autograd import Tensor
 from autograd.tensor import Dependency
 
 import numpy as np
-import scipy.signal
 
 
 def _conv_2d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
@@ -15,13 +14,19 @@ def _conv_2d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
     :param kernel: (np.ndarray) Kernel matrix of shape (output channels, input channels, kernel size, kernel size)
     :return: (np.ndarray) Output array
     '''
-    # Reshape input matrix
-    sub_shape = (input.shape[2] - kernel.shape[2] + 1, input.shape[3] - kernel.shape[3] + 1,)
-    view_shape = input.shape[:2] + tuple(np.subtract(input.shape[2:], sub_shape) + 1) + sub_shape
-    strides = input.strides[:2] + input.strides[2:] + input.strides[2:]
-    sub_matrices = np.lib.stride_tricks.as_strided(input, view_shape, strides)
-    # Perform convolution
-    return np.einsum('ocij, bcijkl->bokl', kernel, sub_matrices)
+    # Change axis
+    input = input.transpose((0, 2, 3, 1))
+    kernel = kernel.transpose((2, 3, 1, 0))
+    # Reshape
+    input = np.lib.stride_tricks.as_strided(input, (input.shape[0],
+                                                    input.shape[1] - kernel.shape[0] + 1,
+                                                    input.shape[2] - kernel.shape[1] + 1,
+                                                    kernel.shape[0],
+                                                    kernel.shape[1],
+                                                    input.shape[3]),
+                                            input.strides[:3] + input.strides[1:])
+    # Perform convolution and transpose
+    return np.tensordot(input, kernel, axes=3).transpose((0, 3, 1, 2))
 
 
 def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
