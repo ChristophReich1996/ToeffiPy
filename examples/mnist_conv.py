@@ -109,8 +109,8 @@ class NeuralNetwork(nn.Module):
         # Call super constructor
         super(NeuralNetwork, self).__init__()
         # Init layers and activations
-        self.res_block_1 = ResidualBlock(in_channels=1, out_channels=8)
-        self.res_block_2 = ResidualBlock(in_channels=8, out_channels=1)
+        self.res_block_1 = ResidualBlock(in_channels=1, out_channels=32)
+        self.res_block_2 = ResidualBlock(in_channels=32, out_channels=1)
         self.linear = nn.Linear(in_features=49, out_features=10, bias=True)
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     # Init loss function
     loss_function = nn.SoftmaxCrossEntropyLoss(axis=2)
     # Init optimizer
-    optimizer = nn.RMSprop(neural_network.parameters, lr=0.0001)
+    optimizer = nn.RMSprop(neural_network.parameters, lr=0.00001)
     # Neural network into train mode
     neural_network.train()
     # Init number of epochs to perform

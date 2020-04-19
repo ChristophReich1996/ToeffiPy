@@ -3,7 +3,8 @@ from module import Module, Sequential
 # Import parameter class
 from parameter import Parameter
 # Import layers modules
-from layer import Linear, Dropout, BatchNorm1d, MaxPool1d, AvgPool1d, Conv1d, UpsamplingNearest1d, Conv2d, MaxPool2d
+from layer import Linear, Dropout, BatchNorm1d, MaxPool1d, AvgPool1d, Conv1d, UpsamplingNearest1d, Conv2d, MaxPool2d, \
+    AvgPool2d
 # Import activations modules
 from activation import ReLU, Identity, Sigmoid, Softmax, LeakyReLU, Tanh, Softplus, ELU, SeLU
 # Import loss modules
