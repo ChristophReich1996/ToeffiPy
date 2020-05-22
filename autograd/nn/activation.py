@@ -1,14 +1,36 @@
 import autograd
+import functional
 from autograd import Tensor
 from module import Module
+from parameter import Parameter
+
 
 class PAU(Module):
     """
-    This class implements the a pade activation unit
+    This class implements the a pade activation unit.
+    Source: https://arxiv.org/abs/1907.06732
     """
-    
-    def __init__(self) -> None:
-        pass
+
+    def __init__(self, m: int = 10, n: int = 4) -> None:
+        """
+        Constructor method
+        :param m: (int) Number of parameters in the numerator polynomial (also order of polynomial)
+        :param n: (int) Number of parameters in the denominator polynomial (also order of polynomial)
+        """
+        # Call super constructor
+        super(PAU, self).__init__()
+        # Init parameters
+        self.m = Parameter(m)
+        self.n = Parameter(n)
+
+    def forward(self, input: Tensor) -> Tensor:
+        """
+        Forward pass
+        :param input: (Tensor) Tensor of any shape
+        :return: (Tensor) Activated output tensor of the same shape as the input tensor
+        """
+        return functional.pau(tensor=input, m=self.m, n=self.n)
+
 
 class Softplus(Module):
     """

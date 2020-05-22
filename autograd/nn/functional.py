@@ -813,3 +813,94 @@ def _apply_reduction(tensor: Tensor, reduction: str) -> Tensor:
         return tensor.sum()
     else:
         return tensor
+
+
+def pau(tensor: Tensor, m: Tensor, n: Tensor) -> Tensor:
+    """
+    Implementation of the pade activation unit in autograd
+    :param tensor: (Tensor) Input tensor of any shape
+    :param m: (Tensor) Parameters for the numerator polynomial
+    :param n: (Tensor) Parameters for the denominator polynomial
+    :return: (Tensor) Activated output tensor
+    """
+    # Forward pass
+    output_numerator = np.polynomial.polynomial.polyval(tensor=tensor.data, c=m.data)
+    output_denominator = 1 + np.abs(np.polynomial.polynomial.polyval(tensor=tensor.data,
+                                                                     c=np.concatenate(
+                                                                         (np.ones(1, dtype=float), n.data))))
+    output = output_numerator / output_denominator
+    # Check if gradient is required
+    requires_grad = tensor.requires_grad or m.requires_grad or n.requires_grad
+    # Init dependencies
+    dependencies: List[Dependency] = []
+    # Add backward operations to output tensor
+    if tensor.requires_grad:
+        # Make gradient function for gradient with respect to input tensor
+        def grad_pade_input(grad: np.ndarray) -> np.ndarray:
+            """
+            Gradient function
+            :param grad: (np.ndarray) Gradient with respect to the output
+            :return: (np.ndarray) Gradient
+            """
+            # (dP(x) / dx) * (1 / Q(x)) first part of quotient rule
+            grad_x_1 = (1 / output_denominator) * \
+                       np.polynomial.polynomial.polyval(tensor=tensor.data,
+                                                        c=m.data[1:] * np.arange(1, m.data[1:].shape[0] + 1, 1))
+            # sign(A(x))
+            Ax_sign = np.where(np.polynomial.polynomial.polyval(tensor=tensor.data,
+                                                                c=np.concatenate(
+                                                                    (np.ones(1, dtype=float), n.data))) > 0, 1, -1)
+            # (dQ(x) / dx)
+            dQ = Ax_sign * np.polynomial.polynomial.polyval(tensor=tensor.data,
+                                                            c=n.data * np.arange(1, n.shape[0] + 1, 1))
+            # (dQ(x) / dx) * (P(x) / Q(x)^2) second part of quotient rule
+            grad_x_2 = (output_numerator / (output_denominator ** 2)) * dQ
+            # Combine parts and input grad
+            return (grad_x_1 - grad_x_2) * grad
+
+        # Add grad function to dependencies
+        dependencies.append(Dependency(activation=tensor, grad_fn=grad_pade_input))
+
+    if m.requires_grad:
+        # Make gradient function for gradient with respect to m
+        def grad_pade_m(grad: np.ndarray) -> np.ndarray:
+            """
+            Gradient function
+            :param grad: (np.ndarray) Gradient with respect to the output
+            :return: (np.ndarray) Gradient
+            """
+            # Compute grad of m
+            grad_m = np.sum(np.power(np.expand_dims(tensor.data, axis=0).repeat(m.shape[0], axis=0),
+                                     np.arange(1, m.shape[0] + 1, 1)) / np.expand_dims(output_denominator, axis=0),
+                            axis=[1, 2])
+            # Apply chain rule
+            return grad_m * grad
+
+        # Add grad function to dependencies
+        dependencies.append(Dependency(activation=m, grad_fn=grad_pade_m))
+
+    if n.requires_grad:
+        # Make gradient function for gradient with respect to m
+        def grad_pade_n(grad: np.ndarray) -> np.ndarray:
+            """
+            Gradient function
+            :param grad: (np.ndarray) Gradient with respect to the output
+            :return: (np.ndarray) Gradient
+            """
+            # sign(A(x))
+            Ax_sign = np.where(np.polynomial.polynomial.polyval(tensor=tensor.data,
+                                                                c=np.concatenate(
+                                                                    (np.ones(1, dtype=float), n.data))) > 0, 1, -1)
+            # Compute grad of m
+            grad_n = np.sum(np.power(np.expand_dims(tensor.data, axis=0).repeat(m.shape[0], axis=0),
+                                     np.arange(1, m.shape[0] + 1, 1)) / np.expand_dims(
+                Ax_sign * (output_numerator / output_denominator ** 2), axis=0),
+                            axis=[1, 2])
+            # Apply chain rule
+            return grad_n * grad
+
+        # Add grad function to dependencies
+        dependencies.append(Dependency(activation=n, grad_fn=grad_pade_n))
+    # Make output autograd tensor
+    output = Tensor(data=output, dependencies=dependencies, requires_grad=requires_grad)
+    return output
