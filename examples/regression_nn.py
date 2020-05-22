@@ -7,9 +7,9 @@ import autograd.nn as nn
 
 
 class NeuralNetwork(nn.Module):
-    '''
+    """
     This class implements a simple neural network
-    '''
+    """
 
     def __init__(self) -> None:
         # Call super constructor
@@ -26,11 +26,11 @@ class NeuralNetwork(nn.Module):
         )
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
-        '''
+        """
         Forward pass
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
-        '''
+        """
         # Perform operations
         output = self.modules(input)
         return output

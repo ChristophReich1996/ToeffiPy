@@ -7,44 +7,44 @@ from module import Module
 
 
 class Optimizer(object):
-    '''
+    """
     Super class of optimizer
-    '''
+    """
 
     def __init__(self, parameters: Callable[[], Iterator[Parameter]]) -> None:
-        '''
+        """
         Constructor method
         :param parameters: (Callable[[], Iterator[Parameter]]) Callable function which returns the parameter of a module
-        '''
+        """
         self.parameters = parameters
 
     def step(self) -> None:
-        '''
+        """
         Optimization step method
-        '''
+        """
         raise NotImplementedError()
 
 
 class SGD(Optimizer):
-    '''
+    """
     Class implements a stochastic gradient decent optimizer
-    '''
+    """
 
     def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.01) -> None:
-        '''
+        """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
         :param lr: (float) Learning rate to be utilized
-        '''
+        """
         # Call super constructor
         super(SGD, self).__init__(parameters=parameters)
         # Save learning rate
         self.lr = lr
 
     def step(self) -> None:
-        '''
+        """
         Method performs optimization step
-        '''
+        """
         # Loop over all parameters
         for parameter in self.parameters():
             # Perform gradient decent
@@ -54,12 +54,12 @@ class SGD(Optimizer):
 class SGDMomentum(Optimizer):
 
     def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.01, momentum: float = 0.9) -> None:
-        '''
+        """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
         :param lr: (float) Learning rate to be utilized
         :param momentum: (float) Momentum factor
-        '''
+        """
         # Call super constructor
         super(SGDMomentum, self).__init__(parameters=parameters)
         # Save parameters
@@ -71,9 +71,9 @@ class SGDMomentum(Optimizer):
         self.t = 0
 
     def step(self) -> None:
-        '''
+        """
         Method performs optimization step
-        '''
+        """
         counter_parameter = 0
         for parameter in self.parameters():
             # Init average squared grad tensor
@@ -94,14 +94,14 @@ class Adam(Optimizer):
 
     def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.001, beta_1: float = 0.9,
                  beta_2: float = 0.999, eps: float = 1e-08) -> None:
-        '''
+        """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
         :param lr: (float) Learning rate to be utilized
         :param beta_1: (float) Coefficient for running first oder average
         :param beta_2: (float) Coefficient for running second oder average
         :param eps: (float) Constant for numerical stability
-        '''
+        """
         # Call super constructor
         super(Adam, self).__init__(parameters=parameters)
         # Save parameters
@@ -116,9 +116,9 @@ class Adam(Optimizer):
         self.second = dict()
 
     def step(self) -> None:
-        '''
+        """
         Method performs optimization step
-        '''
+        """
         # Loop over all parameters
         counter_parameter = 0
         for parameter in self.parameters():
@@ -143,19 +143,19 @@ class Adam(Optimizer):
 
 
 class RMSprop(Optimizer):
-    '''
+    """
     Root mean squared prop optimizer implementation
-    '''
+    """
 
     def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.01, alpha: float = 0.99,
                  eps=1e-08) -> None:
-        '''
+        """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
         :param lr: (float) Learning rate to be utilized
         :param alpha: (float) Smoothing constant
         :param eps: (float) Constant for numerical stability
-        '''
+        """
         # Call super constructor
         super(RMSprop, self).__init__(parameters=parameters)
         # Save parameters
@@ -168,9 +168,9 @@ class RMSprop(Optimizer):
         self.avg_squared_grad = dict()
 
     def step(self) -> None:
-        '''
+        """
         Method performs optimization step
-        '''
+        """
         # Loop over all parameters
         counter_parameter = 0
         for parameter in self.parameters():

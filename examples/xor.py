@@ -6,14 +6,14 @@ import autograd.nn.functional as F
 
 
 class NeuralNetwork(nn.Module):
-    '''
+    """
     This class implements a simple neural network
-    '''
+    """
 
     def __init__(self):
-        '''
+        """
         Constructor
-        '''
+        """
         # Call super constructor
         super(NeuralNetwork, self).__init__()
         # Init layers and activations
@@ -26,11 +26,11 @@ class NeuralNetwork(nn.Module):
         self.linear_3 = nn.Linear(in_features=2, out_features=2, bias=True)
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
-        '''
+        """
         Forward pass
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
-        '''
+        """
         # Perform operations
         output = self.upscale_1(input)
         output = self.linear_1(output)

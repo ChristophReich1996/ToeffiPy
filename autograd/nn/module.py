@@ -8,23 +8,23 @@ from parameter import Parameter
 
 
 class Module(object):
-    '''
+    """
     Super class of an autograd module
-    '''
+    """
 
     def __init__(self) -> None:
-        '''
+        """
         Constructor method
-        '''
+        """
         # Init train mode flag
         self.train_mode = True
 
     def __call__(self, *args: Any) -> Tensor:
-        '''
+        """
         Link forward method to __call___
         :param args: (Tensor or different object) Inputs
         :return: (Tensor) Outputs
-        '''
+        """
         # Make clone of input tensors
         args = list(args)
         for index, arg in enumerate(args):
@@ -35,18 +35,18 @@ class Module(object):
         return self.forward(*args)
 
     def forward(self, *input: Any) -> Tensor:
-        '''
+        """
         Forward method to be implemented in children class
         :param input: (Tensor or different object) Inputs
         :return: (Tensor) Outputs
-        '''
+        """
         raise NotImplementedError()
 
     def parameters(self) -> Iterator[Parameter]:
-        '''
+        """
         Method returns all parameters included in the module
         :return: (Iterator[Parameter]) Iterator including all parameters
-        '''
+        """
         # Iterate over all members of the module
         for _, value in inspect.getmembers(self):
             # Case if object is a nn parameter
@@ -70,10 +70,10 @@ class Module(object):
         return state_dict
 
     def load_state_dict(self, state_dict: np.lib.npyio.NpzFile) -> None:
-        '''
+        """
         Function loads a state dict
         :param state_dict: (np.lib.npyio.NpzFile) State dict as a NpzFile to be loaded
-        '''
+        """
         # Loop over state dict and parameters
         for name, parameter in zip(state_dict.files, self.parameters()):
             # Check sizes
@@ -82,17 +82,17 @@ class Module(object):
             parameter.data = state_dict[name]
 
     def zero_grad(self) -> None:
-        '''
+        """
         Method zeros gradient of all parameters
-        '''
+        """
         # Iterate over all parameters
         for parameter in self.parameters():
             parameter.zero_grad()
 
     def train(self) -> None:
-        '''
+        """
         Method sets train flag of all modules to true.
-        '''
+        """
         # Set own flag
         self.train_mode = True
         # Iterate over all members of the module
@@ -102,9 +102,9 @@ class Module(object):
                 value.train()
 
     def eval(self) -> None:
-        '''
+        """
         Method sets train flag of all modules to false.
-        '''
+        """
         # Set own flag
         self.train_mode = False
         # Iterate over all members of the module
@@ -116,10 +116,10 @@ class Module(object):
                 value.eval()
 
     def count_params(self) -> int:
-        '''
+        """
         Method returns the number of learnable parameters present in the module.
         :return: (int) Number of learnable parameters
-        '''
+        """
         num_parameters = 0
         for parameter in self.parameters():
             num_parameters += parameter.data.size
@@ -127,25 +127,25 @@ class Module(object):
 
 
 class Sequential(Module):
-    '''
+    """
     Sequential model class
-    '''
+    """
 
     def __init__(self, *modules: Module) -> None:
-        '''
+        """
         Constructor
         :param modules: (Module) Different number of layers
-        '''
+        """
         # Call super constructor
         super(Sequential, self).__init__()
         # Save modules
         self.modules = modules
 
     def parameters(self) -> Iterator[Parameter]:
-        '''
+        """
         Method returns all parameters included in the module
         :return: (Iterator[Parameter]) Iterator including all parameters
-        '''
+        """
         # Iterate over all members of the module
         for _, value in inspect.getmembers(self):
             # Case of module tuple
@@ -157,11 +157,11 @@ class Sequential(Module):
                         yield from item.parameters()
 
     def forward(self, input: Tensor) -> Tensor:
-        '''
+        """
         Forward method
         :param input: (Tensor) Inputs
         :return: (Tensor) Outputs
-        '''
+        """
         output = input
         for layer in self.modules:
             output = layer(output)

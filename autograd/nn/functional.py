@@ -8,12 +8,12 @@ import numpy as np
 
 
 def _conv_2d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
-    '''
+    """
     Implements convolution operation in numpy
     :param input: (np.ndarray) Input array of shape (batch size, input channels, height, width)
     :param kernel: (np.ndarray) Kernel matrix of shape (output channels, input channels, kernel size, kernel size)
     :return: (np.ndarray) Output array
-    '''
+    """
     # Change axis
     input = input.transpose((0, 2, 3, 1))
     kernel = kernel.transpose((2, 3, 1, 0))
@@ -30,13 +30,13 @@ def _conv_2d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 
 
 def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
-    '''
+    """
     This function implements a 2d convolution (cross-correlation) in autograd
     :param input: (Tensor) Input tensor of shape (batch size, input channels, height, width)
     :param kernel: (Tensor) Kernel of shape (output channels, input channels, kernel size, kernel size)
     :param bias: (Tensor) Bias tensor of shape (output channels)
     :return: (Tensor) Output tensor (batch size, output channels, height - kernel size + 1, width - kernel size + 1)
-    '''
+    """
     # Check dimensions of parameters
     assert input.data.ndim == 4, 'Input tensor must have four dimensions.'
     assert kernel.data.ndim == 4, 'Kernel tensor must have four dimensions.'
@@ -51,11 +51,11 @@ def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if input.requires_grad:
         # Make gradient function
         def grad_conv2d_input(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Pad gradient for convolution
             grad_padded = np.pad(grad.data, ((0, 0), (0, 0),
                                              (kernel.shape[2] - 1, kernel.shape[2] - 1),
@@ -71,11 +71,11 @@ def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if kernel.requires_grad:
         # Make gradient function
         def grad_conv2d_kernel(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Backward convolution
             grad = _conv_2d_core(input.data.transpose((1, 0, 2, 3)), grad.transpose((1, 0, 2, 3))).transpose(
                 (1, 0, 2, 3))
@@ -101,11 +101,11 @@ def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if output_conv.requires_grad:
         # Make gradient function
         def grad_conv_output(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             return grad
 
         # Add grad function to dependencies
@@ -114,11 +114,11 @@ def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if bias.requires_grad:
         # Make gradient function
         def grad_conv_bias(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             return grad
 
         # Add grad function to dependencies
@@ -128,12 +128,12 @@ def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
 
 
 def max_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
-    '''
+    """
     This function implements the 2d max pooling operation in autograd
     :param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
     :param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
     :return: (Tensor) Output tensor
-    '''
+    """
     # Check input dimensions
     assert tensor.data.ndim == 4, 'Input tensor must have four dimensions (batch size, channels, features).'
     # Check kernel size
@@ -158,11 +158,11 @@ def max_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
     if requires_grad:
         # Make gradient function
         def grad_max_pool_2d(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Repeat gradient by kernel size
             unpooled_grad = np.repeat(np.repeat(grad.data, kernel_size[0], axis=2), kernel_size[1], axis=3)
             # Mask out not used elements
@@ -177,12 +177,12 @@ def max_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
 
 
 def avg_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
-    '''
+    """
     This function implements the 2d average pooling operation in autograd
     :param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
     :param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
     :return: (Tensor) Output tensor
-    '''
+    """
     # Check input dimensions
     assert tensor.data.ndim == 4, 'Input tensor must have four dimensions (batch size, channels, features).'
     # Check kernel size
@@ -204,11 +204,11 @@ def avg_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
     if requires_grad:
         # Make gradient function
         def grad_avg_pool_2d(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Repeat gradient by kernel size
             unpooled_grad = np.repeat(np.repeat(grad.data, kernel_size[0], axis=2), kernel_size[1], axis=3)
             # Mask out not used elements
@@ -224,7 +224,7 @@ def avg_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
 
 def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mean: Tensor = None, std: Tensor = None,
                   eps: float = 1e-05, return_mean_and_std: bool = True) -> Union[Tensor, Tuple[Tensor, Tensor, Tensor]]:
-    '''
+    """
     Function implements a 2d batch normalization operation
     :param tensor: (Tensor) Input tensor
     :param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
@@ -234,7 +234,7 @@ def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mea
     :param eps: (float) Constant for numerical stability
     :param return_mean_and_std: (bool) If true mean and std gets returned
     :return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor
-    '''
+    """
     # Compute mean and std if not given
     if mean is None:
         mean = tensor.mean()
@@ -253,12 +253,12 @@ def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mea
 
 
 def upsampling_nearest_2d(input: Tensor, scale_factor: int = 2) -> Tensor:
-    '''
+    """
     This function implements 2d nearest neighbour upsampling in autograd
     :param input: (Tensor) Input tensor of shape (batch size, channels, height, width)
     :param scale_factor: (int) Scaling factor
     :return: (Tensor) Output tensor of shape (batch size, channels, height * scale factor, width * scale factor)
-    '''
+    """
     # Check parameter
     assert scale_factor > 0, 'Scale factor must be greater than zero.'
     # Upsampling
@@ -269,11 +269,11 @@ def upsampling_nearest_2d(input: Tensor, scale_factor: int = 2) -> Tensor:
     if requires_grad:
         # Make gradient function
         def grad_upsampling_nearest_2d(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Backward pass as max pooling
             height_factor = grad.shape[2] // scale_factor
             width_factor = grad.shape[2] // scale_factor
@@ -291,12 +291,12 @@ def upsampling_nearest_2d(input: Tensor, scale_factor: int = 2) -> Tensor:
 
 
 def upsampling_nearest_1d(input: Tensor, scale_factor: int = 2) -> Tensor:
-    '''
+    """
     This function implements nearest neighbour upsampling in autograd
     :param input: (Tensor) Input tensor of shape (batch size, channels, features)
     :param scale_factor: (int) Scaling factor
     :return: (Tensor) Output tensor of shape (batch size, channels, scale factor * features)
-    '''
+    """
     # Check parameter
     assert scale_factor > 0, 'Scale factor must be greater than zero.'
     # Upsampling
@@ -307,11 +307,11 @@ def upsampling_nearest_1d(input: Tensor, scale_factor: int = 2) -> Tensor:
     if requires_grad:
         # Make gradient function
         def grad_upsampling_nearest_1d(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Backward pass as max pooling
             features_factor = grad.shape[-1] // scale_factor
             grad = grad[:, :, :features_factor * scale_factor] \
@@ -327,12 +327,12 @@ def upsampling_nearest_1d(input: Tensor, scale_factor: int = 2) -> Tensor:
 
 
 def _conv_1d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
-    '''
+    """
     Implements convolution operation in numpy
     :param input: (np.ndarray) Input array of shape (batch size, input channels, height, width)
     :param kernel: (np.ndarray) Kernel matrix of shape (output channels, input channels, kernel size, kernel size)
     :return: (np.ndarray) Output array
-    '''
+    """
     # Reshape input matrix
     sub_shape = (input.shape[2] - kernel.shape[2] + 1,)
     view_shape = input.shape[:2] + tuple(np.subtract(input.shape[2:], sub_shape) + 1) + sub_shape
@@ -343,13 +343,13 @@ def _conv_1d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
 
 
 def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
-    '''
+    """
     This function implements a 1d convolution (cross-correlation) in autograd
     :param input: (Tensor) Input tensor of shape (batch size, input channels, input features)
     :param kernel: (Tensor) Kernel tensor of shape (output channels, input channels, kernel size)
     :param bias: (Tensor) Bias tensor of shape (output channels)
     :return: (Tensor) Output tensor of shape (batch size, output channels, output features)
-    '''
+    """
     # Check dimensions of parameters
     assert input.data.ndim == 3, 'Input tensor must have three dimensions.'
     assert kernel.data.ndim == 3, 'Kernel tensor must have three dimensions.'
@@ -364,11 +364,11 @@ def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if input.requires_grad:
         # Make gradient function
         def grad_conv1d_input(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             grad = _conv_1d_core(np.pad(grad, ((0, 0), (0, 0), (kernel.shape[2] - 1, kernel.shape[2] - 1)), 'constant',
                                         constant_values=(1)), kernel.data.transpose((1, 0, 2)))
             return grad
@@ -379,11 +379,11 @@ def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if kernel.requires_grad:
         # Make gradient function
         def grad_conv1d_kernel(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             grad = _conv_1d_core(input.data.transpose((1, 0, 2)), grad.transpose((1, 0, 2))).transpose((1, 0, 2))
             return grad
 
@@ -407,11 +407,11 @@ def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if output_conv.requires_grad:
         # Make gradient function
         def grad_conv_output(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
 
             return grad
 
@@ -421,11 +421,11 @@ def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     if bias.requires_grad:
         # Make gradient function
         def grad_conv_bias(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             return grad
 
         # Add grad function to dependencies
@@ -435,13 +435,13 @@ def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
 
 
 def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
-    '''
+    """
     This function implements a linear layer in autograd
     :param input: (Tensor) Input tensor of shape (batch size, *, input features). * various number of channels
     :param weight: (Tensor) Weight tensor of shape (output features, input features)
     :param bias: (Tensor) Bias tensor of shape (output features)
     :return: (Tensor) Output tensor of shape (batch size, *, output features)
-    '''
+    """
     # Check dimensions of input tensors
     assert input.data.ndim in [2, 3], \
         'Input tensor has the wrong number of dimensions. Only two or three dimensions are supported'
@@ -465,11 +465,11 @@ def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
     if input.requires_grad:
         # Make gradient function
         def grad_linear_input(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             return grad @ weight.data
 
         # Add grad function to dependencies
@@ -478,11 +478,11 @@ def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
     if weight.requires_grad:
         # Make gradient function
         def grad_linear_weight(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             if input.data.ndim == 3:
                 # Transpose gradient dimensions 1 and 2, perform mat mul and sum over batch size dimension
                 return (grad.transpose((0, 2, 1)) @ input.data).sum(axis=0)
@@ -516,11 +516,11 @@ def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
     if output_mm.requires_grad:
         # Make gradient function
         def grad_linear_output_mm(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             return grad
 
         # Add grad function to dependencies
@@ -529,11 +529,11 @@ def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
     if bias.requires_grad:
         # Make gradient function
         def grad_linear_bias(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             return grad
 
         # Add grad function to dependencies
@@ -543,12 +543,12 @@ def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
 
 
 def max_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
-    '''
+    """
     This function implements a 1d max pooling operation in autograd
     :param tensor: (Tensor) Input tensor
     :param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
     :return: (Tensor) Output tensor
-    '''
+    """
     # Check input dimensions
     assert tensor.data.ndim == 3, 'Input tensor must have three dimensions (batch size, channels, features).'
     # Get shape
@@ -567,11 +567,11 @@ def max_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
     if requires_grad:
         # Make gradient function
         def grad_max_pool_1d(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Repeat gradient by kernel size
             unpooled_grad = np.repeat(grad.data, kernel_size, axis=2)
             # Mask out not used elements
@@ -586,12 +586,12 @@ def max_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
 
 
 def avg_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
-    '''
+    """
     This function implements a 1d average pooling operation in autograd
     :param tensor: (Tensor) Input tensor
     :param kernel_size: (Tuple[int]) Kernel size of the pooling operation.
     :return: (Tensor) Output tensor
-    '''
+    """
     # Check input dimensions
     assert tensor.data.ndim == 3, 'Input tensor must have three dimensions (batch size, channels, features).'
     # Get shape
@@ -608,11 +608,11 @@ def avg_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
     if requires_grad:
         # Make gradient function
         def grad_max_pool_1d(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Computes the gradient
             :param grad: (np.ndarray) Original gradient
             :return: (np.ndarray) Final gradient
-            '''
+            """
             # Repeat gradient by kernel size
             unpooled_grad = np.repeat(grad.data, kernel_size, axis=2)
             # Mask out not used elements
@@ -628,7 +628,7 @@ def avg_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
 
 def batch_norm_1d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mean: Tensor = None, std: Tensor = None,
                   eps: float = 1e-05, return_mean_and_std: bool = True) -> Union[Tensor, Tuple[Tensor, Tensor, Tensor]]:
-    '''
+    """
     Function implements a batch normalization operation
     :param tensor: (Tensor) Input tensor
     :param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
@@ -638,7 +638,7 @@ def batch_norm_1d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mea
     :param eps: (float) Constant for numerical stability
     :param return_mean_and_std: (bool) If true mean and std gets returned
     :return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor
-    '''
+    """
     # Compute mean and std if not given
     if mean is None:
         mean = tensor.mean()
@@ -667,12 +667,12 @@ def batch_norm_1d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mea
 
 
 def dropout(tensor: Tensor, p: float = 0.2) -> Tensor:
-    '''
+    """
     Method performs dropout with a autograd tensor.
     :param tensor: (Tensor) Input tensor
     :param p: (float) Probability that a activation element is set to zero
     :return: (Tensor) Output tensor
-    '''
+    """
     # Check argument
     assert 0.0 <= p <= 1.0, 'Parameter p must be in the range of [0, 1].'
     # Apply dropout
@@ -685,25 +685,25 @@ def dropout(tensor: Tensor, p: float = 0.2) -> Tensor:
 
 
 def softmax(tensor: Tensor, axis: int = 1) -> Tensor:
-    '''
+    """
     This function implements the softmax activation in autograd
     :param tensor: (Tensor) Input tensor
     :param axis: (int) Axis to apply softmax
     :return: (Tensor) Output tensor
-    '''
+    """
     output_exp = autograd.exp(tensor)
     output = output_exp / (autograd.sum(output_exp, axis=axis, keepdims=True))
     return output
 
 
 def cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean') -> Tensor:
-    '''
+    """
     Function implements the multi class cross entropy loss in autograd
     :param prediction: (Tensor) Prediction tensor
     :param label: (Tensor) One hot encoded label tensor
     :param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
     :return: (Tensor) Loss value
-    '''
+    """
     # Assert shapes to be the same for prediction and label
     assert label.shape == prediction.shape, 'Shape of label must match with prediction'
     # Compute loss
@@ -713,13 +713,13 @@ def cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean
 
 
 def l1_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean') -> Tensor:
-    '''
+    """
     Function implements the l1 loss in autograd
     :param prediction: (Tensor) Prediction tensor
     :param label: (Tensor) One hot encoded label tensor
     :param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
     :return: (Tensor) Loss value
-    '''
+    """
     # Assert shapes to be the same for prediction and label
     assert label.shape == prediction.shape, 'Shape of label must match with prediction'
     # Compute loss
@@ -729,13 +729,13 @@ def l1_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean') -> Tenso
 
 
 def mse_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean') -> Tensor:
-    '''
+    """
     Function implements the mean squared error loss in autograd
     :param prediction: (Tensor) Prediction tensor
     :param label: (Tensor) One hot encoded label tensor
     :param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
     :return: (Tensor) Loss value
-    '''
+    """
     # Assert shapes to be the same for prediction and label
     assert label.shape == prediction.shape, 'Shape of label must match with prediction'
     # Compute loss
@@ -745,13 +745,13 @@ def mse_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean') -> Tens
 
 
 def binary_cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean') -> Tensor:
-    '''
+    """
     This function implements the binary cross entropy loss in autograd
     :param prediction: (Tensor) Prediction tensor
     :param label: (Tensor) One hot encoded label tensor
     :param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
     :return: (Tensor) Loss value
-    '''
+    """
     # Check shape of prediction and label
     assert label.shape == prediction.shape, 'Shape of label must match with prediction'
     # Compute loss
@@ -761,14 +761,14 @@ def binary_cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str 
 
 
 def softmax_cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str = 'mean', axis: int = 1) -> Tensor:
-    '''
+    """
     Function implements the softmax multi class cross entropy loss in autograd
     :param prediction: (Tensor) Prediction tensor
     :param label: (Tensor) One hot encoded label tensor
     :param reduction: (str) Type of reduction to perform after apply the loss (mean, sum or none)
     :param axis: (int) Axis to apply softmax
     :return: (Tensor) Loss value
-    '''
+    """
     # Assert tha label dose not require gradient
     assert not label.requires_grad, 'Gradient for label not supported. Use normal cross entropy loss, instead.'
     # Apply softmax
@@ -781,11 +781,11 @@ def softmax_cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str
     # Make backward function if needed
     if requires_grad:
         def grad_scel(grad: np.ndarray) -> np.ndarray:
-            '''
+            """
             Function computes gradient of the sin function
             :param grad: (Tensor) Previous gradient
             :return: (Tensor) Gradient
-            '''
+            """
             return grad * (prediction_softmax - label.data)
 
         dependency = [Dependency(activation=prediction, grad_fn=grad_scel)]
@@ -798,12 +798,12 @@ def softmax_cross_entropy_loss(prediction: Tensor, label: Tensor, reduction: str
 
 
 def _apply_reduction(tensor: Tensor, reduction: str) -> Tensor:
-    '''
+    """
     Function apply a given reduction (mean, sum or none) to a given tensor
     :param tensor: (Tensor) Input tensor
     :param reduction: (str) Type of reduction
     :return: (Tensor) Output tensor
-    '''
+    """
     # Check parameter
     assert reduction in ['mean', 'sum', 'none'], 'Reduction {} is not available. Use `mean`, `sum` or `none`'
     # Apply reduction

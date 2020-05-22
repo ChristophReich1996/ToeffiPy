@@ -10,17 +10,17 @@ import autograd.data
 
 
 class MNIST(autograd.data.Dataset):
-    '''
+    """
     This class implements the mnist dataset
-    '''
+    """
 
     def __init__(self, path_inputs: str = 'mnist\mnist_small_train_in.txt',
                  path_labels: str = 'mnist\mnist_small_train_out.txt') -> None:
-        '''
+        """
         Constructor method
         :param path_inputs: (str) Path to mnist input data
         :param path_labels: (str) Path to mnist labels
-        '''
+        """
         # Call super constructor
         super(MNIST, self).__init__()
         # Load mnist inputs
@@ -39,33 +39,33 @@ class MNIST(autograd.data.Dataset):
         self.labels = autograd.Tensor(self.labels, requires_grad=False)
 
     def __len__(self) -> int:
-        '''
+        """
         Method returns the length of the dataset
         :return: (int) Length
-        '''
+        """
         return self.inputs.shape[0]
 
     def __getitem__(self, item) -> Tuple[autograd.Tensor, autograd.Tensor]:
-        '''
+        """
         Method returns the input and the corresponding label
         :param item:
         :return:
-        '''
+        """
         return self.inputs[item], self.labels[item]
 
 
 class ResidualBlock(nn.Module):
-    '''
+    """
     This class implements a simple residual block consisting of two convolution followed each by an activation function
     , a downsampling operation in the end and a dropout layer.
-    '''
+    """
 
     def __init__(self, in_channels: int, out_channels: int) -> None:
-        '''
+        """
         Constructor
         :param in_channels: (int) Number of input channels
         :param out_channels: (int) Number of output channels
-        '''
+        """
         super(ResidualBlock, self).__init__()
         # Init operations
         self.conv_1 = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
@@ -81,11 +81,11 @@ class ResidualBlock(nn.Module):
         self.pooling = nn.MaxPool2d(kernel_size=(2, 2))
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
-        '''
+        """
         Forward pass
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
-        '''
+        """
         output = self.conv_1(input)
         output = self.activation_1(output)
         output = self.dropout_1(output)
@@ -98,14 +98,14 @@ class ResidualBlock(nn.Module):
 
 
 class NeuralNetwork(nn.Module):
-    '''
+    """
     This class implements a simple two layer feed forward neural network for classification.
-    '''
+    """
 
     def __init__(self) -> None:
-        '''
+        """
         Constructor
-        '''
+        """
         # Call super constructor
         super(NeuralNetwork, self).__init__()
         # Init layers and activations
@@ -114,11 +114,11 @@ class NeuralNetwork(nn.Module):
         self.linear = nn.Linear(in_features=49, out_features=10, bias=True)
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
-        '''
+        """
         Forward pass
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
-        '''
+        """
         # Perform operations
         output = self.res_block_1(input)
         output = self.res_block_2(output)

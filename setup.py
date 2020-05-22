@@ -13,5 +13,5 @@ setup(
               'Python', 'Numpy'],
     url='https://github.com/ChristophReich1996/ToeffiPy',
     license='MIT',
-    classifiers=['Programming Language :: Python :: 3.7'],
+    classifiers=['Programming Language :: Python :: 3.7']
 )

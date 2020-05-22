@@ -7,9 +7,9 @@ import autograd.nn as nn
 
 
 class Linear(nn.Module):
-    '''
+    """
     Linear module
-    '''
+    """
 
     def __init__(self) -> None:
         # Call super constructor
@@ -18,11 +18,11 @@ class Linear(nn.Module):
         self.linear = nn.Linear(in_features=4, out_features=1)
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
-        '''
+        """
         Forward pass
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
-        '''
+        """
         # Perform operations
         output = self.linear(input)
         return output
