@@ -824,8 +824,8 @@ def pau(tensor: Tensor, m: Tensor, n: Tensor) -> Tensor:
     :return: (Tensor) Activated output tensor
     """
     # Forward pass
-    output_numerator = np.polynomial.polynomial.polyval(tensor=tensor.data, c=m.data)
-    output_denominator = 1 + np.abs(np.polynomial.polynomial.polyval(tensor=tensor.data,
+    output_numerator = np.polynomial.polynomial.polyval(x=tensor.data, c=m.data)
+    output_denominator = 1 + np.abs(np.polynomial.polynomial.polyval(x=tensor.data,
                                                                      c=np.concatenate(
                                                                          (np.ones(1, dtype=float), n.data))))
     output = output_numerator / output_denominator
@@ -844,14 +844,14 @@ def pau(tensor: Tensor, m: Tensor, n: Tensor) -> Tensor:
             """
             # (dP(x) / dx) * (1 / Q(x)) first part of quotient rule
             grad_x_1 = (1 / output_denominator) * \
-                       np.polynomial.polynomial.polyval(tensor=tensor.data,
+                       np.polynomial.polynomial.polyval(x=tensor.data,
                                                         c=m.data[1:] * np.arange(1, m.data[1:].shape[0] + 1, 1))
             # sign(A(x))
-            Ax_sign = np.where(np.polynomial.polynomial.polyval(tensor=tensor.data,
+            Ax_sign = np.where(np.polynomial.polynomial.polyval(x=tensor.data,
                                                                 c=np.concatenate(
                                                                     (np.ones(1, dtype=float), n.data))) > 0, 1, -1)
             # (dQ(x) / dx)
-            dQ = Ax_sign * np.polynomial.polynomial.polyval(tensor=tensor.data,
+            dQ = Ax_sign * np.polynomial.polynomial.polyval(x=tensor.data,
                                                             c=n.data * np.arange(1, n.shape[0] + 1, 1))
             # (dQ(x) / dx) * (P(x) / Q(x)^2) second part of quotient rule
             grad_x_2 = (output_numerator / (output_denominator ** 2)) * dQ
@@ -888,7 +888,7 @@ def pau(tensor: Tensor, m: Tensor, n: Tensor) -> Tensor:
             :return: (np.ndarray) Gradient
             """
             # sign(A(x))
-            Ax_sign = np.where(np.polynomial.polynomial.polyval(tensor=tensor.data,
+            Ax_sign = np.where(np.polynomial.polynomial.polyval(x=tensor.data,
                                                                 c=np.concatenate(
                                                                     (np.ones(1, dtype=float), n.data))) > 0, 1, -1)
             # Compute grad of m
