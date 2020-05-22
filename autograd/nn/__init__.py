@@ -6,7 +6,7 @@ from parameter import Parameter
 from layer import Linear, Dropout, BatchNorm1d, MaxPool1d, AvgPool1d, Conv1d, UpsamplingNearest1d, Conv2d, MaxPool2d, \
     AvgPool2d
 # Import activations modules
-from activation import ReLU, Identity, Sigmoid, Softmax, LeakyReLU, Tanh, Softplus, ELU, SeLU
+from activation import ReLU, Identity, Sigmoid, Softmax, LeakyReLU, Tanh, Softplus, ELU, SeLU, PAU
 # Import loss modules
 from lossfunction import CrossEntropyLoss, BinaryCrossEntropyLoss, SoftmaxCrossEntropyLoss, L1Loss, MSELoss, Loss
 # Import optimizers
