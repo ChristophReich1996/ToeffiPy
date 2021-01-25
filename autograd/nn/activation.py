@@ -1,8 +1,12 @@
+from typing import Optional
+
 import autograd
 from . import functional
 from autograd import Tensor
 from .module import Module
 from .parameter import Parameter
+
+import numpy as np
 
 
 class PAU(Module):
@@ -11,17 +15,18 @@ class PAU(Module):
     Source: https://arxiv.org/abs/1907.06732
     """
 
-    def __init__(self, m: int = 10, n: int = 4) -> None:
+    def __init__(self, random_init: Optional[bool] = False) -> None:
         """
         Constructor method
-        :param m: (int) Number of parameters in the numerator polynomial (also order of polynomial)
-        :param n: (int) Number of parameters in the denominator polynomial (also order of polynomial)
+        :param random_init: (Optional[bool]) If true parameters are initialized randomly else pau init as leaky ReLU
         """
         # Call super constructor
         super(PAU, self).__init__()
         # Init parameters
-        self.m = Parameter(m)
-        self.n = Parameter(n)
+        self.m = Parameter(6) if random_init else \
+            Parameter(data=np.array([0.02557776, 0.66182815, 1.58182975, 2.94478759, 0.95287794, 0.23319681]))
+        self.n = Parameter(5) if random_init else \
+            Parameter(data=np.array([0.50962605, 4.18376890, 0.37832090, 0.32407314]))
 
     def forward(self, input: Tensor) -> Tensor:
         """
