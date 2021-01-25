@@ -1,8 +1,8 @@
 import autograd
-import functional
+from . import functional
 from autograd import Tensor
-from module import Module
-from parameter import Parameter
+from .module import Module
+from .parameter import Parameter
 
 
 class PAU(Module):

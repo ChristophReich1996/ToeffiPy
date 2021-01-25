@@ -2,8 +2,8 @@ from typing import Iterator, Callable
 
 import numpy as np
 
-from parameter import Parameter
-from module import Module
+from .parameter import Parameter
+from .module import Module
 
 
 class Optimizer(object):

@@ -1,4 +1,4 @@
 # Import dataset class
-from dataset import Dataset
+from .dataset import Dataset
 # Import dataloader class
-from dataloader import DataLoader
+from .dataloader import DataLoader

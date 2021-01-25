@@ -1,7 +1,7 @@
 import autograd
 from autograd import Tensor
-from module import Module
-import functional
+from .module import Module
+from . import functional
 
 
 class Loss(Module):

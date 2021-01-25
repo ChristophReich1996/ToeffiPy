@@ -4,7 +4,7 @@ import numpy as np
 import math
 
 import autograd
-from dataset import Dataset
+from .dataset import Dataset
 
 
 class DataLoader(object):

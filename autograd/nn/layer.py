@@ -4,9 +4,9 @@ import numpy as np
 
 import autograd
 from autograd import Tensor
-from module import Module
-from parameter import Parameter
-import functional
+from .module import Module
+from .parameter import Parameter
+from . import functional
 
 
 class Conv2d(Module):

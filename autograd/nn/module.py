@@ -4,7 +4,7 @@ import inspect
 import numpy as np
 
 from autograd.tensor import Tensor
-from parameter import Parameter
+from .parameter import Parameter
 
 
 class Module(object):
