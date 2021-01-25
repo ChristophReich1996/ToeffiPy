@@ -104,14 +104,14 @@ import autograd
 import autograd.nn as nn
 
 class FFNN(nn.Module):
-    '''
+    """
     This class implements a simple feed forward neural network.
-    '''
+    """
 
     def __init__(self):
-        '''
+        """
         Constructor
-        '''
+        """
         # Call super constructor
         super(FFNN, self).__init__()
         # Init layers and activations
@@ -124,11 +124,11 @@ class FFNN(nn.Module):
         )
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
-        '''
+        """
         Forward pass
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
-        '''
+        """
         # Perform operations
         output = self.layers(input)
         return output
