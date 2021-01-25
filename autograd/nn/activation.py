@@ -63,10 +63,10 @@ class ELU(Module):
     This class implements a elu activation module
     """
 
-    def __init__(self, alpha: float = 1.0) -> None:
+    def __init__(self, alpha: Optional[float] = 1.0) -> None:
         """
         Constructor
-        :param alpha: (float) Alpha coefficient
+        :param alpha: (Optional[float]) Alpha coefficient
         """
         # Call super constructor
         super(ELU, self).__init__()
@@ -129,10 +129,10 @@ class LeakyReLU(Module):
     This class implements a leaky relu activation module
     """
 
-    def __init__(self, negative_slope: float = 0.2) -> None:
+    def __init__(self, negative_slope: Optional[float] = 0.2) -> None:
         """
         Constructor
-        :param negative_slope: (float) Negative slope utilized in leaky relu
+        :param negative_slope: (Optional[float]) Negative slope utilized in leaky relu
         """
         # Call super constructor
         super(LeakyReLU, self).__init__()
@@ -195,10 +195,10 @@ class Softmax(Module):
     Class implements the softmax activation module
     """
 
-    def __init__(self, axis: int = 1) -> None:
+    def __init__(self, axis: Optional[int] = 1) -> None:
         """
         Constructor
-        :param axis: (int) Axis to apply softmax
+        :param axis: (Optional[float]) Axis to apply softmax
         """
         # Call super constructor
         super(Softmax, self).__init__()
