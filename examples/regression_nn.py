@@ -17,9 +17,9 @@ class NeuralNetwork(nn.Module):
         # Init modules
         self.modules = nn.Sequential(
             nn.Linear(in_features=1, out_features=16, bias=True),
-            nn.SeLU(),
+            nn.PAU(),
             nn.Linear(in_features=16, out_features=16, bias=True),
-            nn.SeLU(),
+            nn.LeakyReLU(negative_slope=0.5),
             nn.Linear(in_features=16, out_features=16, bias=True),
             nn.LeakyReLU(negative_slope=0.5),
             nn.Linear(in_features=16, out_features=1, bias=True)
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # Init loss function
     loss_function = nn.L1Loss()
     # Init optimizer
-    optimizer = nn.SGDMomentum(neural_network.parameters, lr=0.001)
+    optimizer = nn.Adam(neural_network.parameters, lr=0.003)
     # Neural network into train mode
     neural_network.train()
     # Init progress bar

@@ -19,11 +19,13 @@ class NeuralNetwork(nn.Module):
         # Init layers and activations
         self.upscale_1 = nn.UpsamplingNearest1d(scale_factor=2)
         self.linear_1 = nn.Linear(in_features=4, out_features=2, bias=True)
-        self.acitvation_1 = nn.PAU()
+        self.activation_1 = nn.LeakyReLU()
         self.upscale_2 = nn.UpsamplingNearest1d(scale_factor=2)
         self.conv_2 = nn.Conv1d(in_channels=1, out_channels=1, kernel_size=3, bias=True)
-        self.acitvation_2 = nn.PAU()
-        self.linear_3 = nn.Linear(in_features=2, out_features=2, bias=True)
+        self.activation_2 = nn.PAU()
+        self.linear_3 = nn.Linear(in_features=2, out_features=16, bias=True)
+        self.activation_3 = nn.PAU()
+        self.linear_4 = nn.Linear(in_features=16, out_features=2, bias=True)
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
         """
@@ -34,11 +36,13 @@ class NeuralNetwork(nn.Module):
         # Perform operations
         output = self.upscale_1(input)
         output = self.linear_1(output)
-        output = self.acitvation_1(output)
+        output = self.activation_1(output)
         output = self.upscale_2(output)
         output = self.conv_2(output)
-        output = self.acitvation_2(output)
+        output = self.activation_2(output)
         output = self.linear_3(output)
+        output = self.activation_3(output)
+        output = self.linear_4(output)
         return output
 
 
