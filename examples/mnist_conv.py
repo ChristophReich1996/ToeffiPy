@@ -67,17 +67,21 @@ class ResidualBlock(nn.Module):
         :param out_channels: (int) Number of output channels
         """
         super(ResidualBlock, self).__init__()
-        # Init operations
-        self.conv_1 = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
-                                bias=True)
-        self.activation_1 = nn.LeakyReLU()
-        self.dropout_1 = nn.Dropout(p=0.05)
-        self.conv_2 = nn.Conv2d(in_channels=out_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
-                                bias=True)
-        self.activation_2 = nn.LeakyReLU()
-        self.dropout_2 = nn.Dropout(p=0.05)
+        # Init main mapping
+        self.main_mapping = nn.Sequential(
+            nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
+                      bias=True),
+            nn.PAU(),
+            nn.Dropout(p=0.05),
+            nn.Conv2d(in_channels=out_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
+                      bias=True),
+            nn.PAU(),
+            nn.Dropout(p=0.05)
+        )
+        # Init residual mapping
         self.residual_mapping = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(1, 1),
                                           bias=True)
+        # Init pooling layer
         self.pooling = nn.MaxPool2d(kernel_size=(2, 2))
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
@@ -86,13 +90,7 @@ class ResidualBlock(nn.Module):
         :param input: (Tensor) Input tensor
         :return: (Tensor) Output tensor
         """
-        output = self.conv_1(input)
-        output = self.activation_1(output)
-        output = self.dropout_1(output)
-        output = self.conv_2(output)
-        output = self.activation_2(output)
-        output = self.dropout_2(output)
-        output = output + self.residual_mapping(input)
+        output = self.residual_mapping(input) + self.residual_mapping(input)
         output = self.pooling(output)
         return output
 
@@ -109,8 +107,8 @@ class NeuralNetwork(nn.Module):
         # Call super constructor
         super(NeuralNetwork, self).__init__()
         # Init layers and activations
-        self.res_block_1 = ResidualBlock(in_channels=1, out_channels=32)
-        self.res_block_2 = ResidualBlock(in_channels=32, out_channels=1)
+        self.res_block_1 = ResidualBlock(in_channels=1, out_channels=64)
+        self.res_block_2 = ResidualBlock(in_channels=64, out_channels=1)
         self.linear = nn.Linear(in_features=49, out_features=10, bias=True)
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
@@ -139,11 +137,11 @@ if __name__ == '__main__':
     # Init loss function
     loss_function = nn.SoftmaxCrossEntropyLoss(axis=2)
     # Init optimizer
-    optimizer = nn.RMSprop(neural_network.parameters, lr=0.00001)
+    optimizer = nn.RMSprop(neural_network.parameters, lr=0.001)
     # Neural network into train mode
     neural_network.train()
     # Init number of epochs to perform
-    epochs = 1
+    epochs = 2
     # Init progress bar
     progress_bar = tqdm(total=epochs * len(dataloader_train.dataset))
     # Train model
@@ -176,7 +174,7 @@ if __name__ == '__main__':
     # Test loop to compute tha accuracy
     for input, label in dataloader_test:
         # Make prediction
-        prediction = F.softmax(neural_network(input))
+        prediction = F.softmax(neural_network(input), axis=2)
         # Apply max to get one hot tensor
         prediction = prediction == prediction.max()
         # Compare prediction with label
