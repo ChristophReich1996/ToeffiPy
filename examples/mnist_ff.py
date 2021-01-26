@@ -93,7 +93,7 @@ if __name__ == '__main__':
     # Init loss function
     loss_function = nn.SoftmaxCrossEntropyLoss(axis=2)
     # Init optimizer
-    optimizer = nn.Adam(neural_network.parameters, lr=0.001)
+    optimizer = nn.RMSprop(neural_network.parameters, lr=0.001)
     # Neural network into train mode
     neural_network.train()
     # Init number of epochs to perform
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     # Test loop to compute tha accuracy
     for input, label in dataloader_test:
         # Make prediction
-        prediction = F.softmax(neural_network(input))
+        prediction = F.softmax(neural_network(input), axis=2)
         # Apply max to get one hot tensor
         prediction = prediction == prediction.max()
         # Compare prediction with label
