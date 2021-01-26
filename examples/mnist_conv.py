@@ -72,17 +72,16 @@ class ResidualBlock(nn.Module):
             nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
                       bias=True),
             nn.PAU(),
-            nn.Dropout(p=0.05),
             nn.Conv2d(in_channels=out_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
                       bias=True),
             nn.PAU(),
-            nn.Dropout(p=0.05)
+            nn.Dropout(p=0.1)
         )
         # Init residual mapping
         self.residual_mapping = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(1, 1),
                                           bias=True)
         # Init pooling layer
-        self.pooling = nn.MaxPool2d(kernel_size=(2, 2))
+        self.pooling = nn.AvgPool2d(kernel_size=(2, 2))
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
         """
@@ -109,7 +108,11 @@ class NeuralNetwork(nn.Module):
         # Init layers and activations
         self.res_block_1 = ResidualBlock(in_channels=1, out_channels=64)
         self.res_block_2 = ResidualBlock(in_channels=64, out_channels=1)
-        self.linear = nn.Linear(in_features=49, out_features=10, bias=True)
+        self.linear_block = nn.Sequential(
+            nn.Linear(in_features=49, out_features=64, bias=True),
+            nn.PAU(),
+            nn.Linear(in_features=64, out_features=10, bias=False)
+        )
 
     def forward(self, input: autograd.Tensor) -> autograd.Tensor:
         """
@@ -121,7 +124,7 @@ class NeuralNetwork(nn.Module):
         output = self.res_block_1(input)
         output = self.res_block_2(output)
         output = autograd.flatten(output, starting_dim=2)
-        output = self.linear(output)
+        output = self.linear_block(output)
         return output
 
 
@@ -137,11 +140,11 @@ if __name__ == '__main__':
     # Init loss function
     loss_function = nn.SoftmaxCrossEntropyLoss(axis=2)
     # Init optimizer
-    optimizer = nn.RMSprop(neural_network.parameters, lr=0.001)
+    optimizer = nn.Adam(neural_network.parameters, lr=0.001)
     # Neural network into train mode
     neural_network.train()
     # Init number of epochs to perform
-    epochs = 2
+    epochs = 5
     # Init progress bar
     progress_bar = tqdm(total=epochs * len(dataloader_train.dataset))
     # Train model
