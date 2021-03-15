@@ -1,5 +1,5 @@
 # ToeffiPy
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ChristophReich1996/ToeffiPy/blob/master/LICENSE)
 ToeffiPy is a fully [NumPy](https://numpy.org/) based autograd and deep learning library for 
 [Python 3](https://www.python.org/). The core tensor class of ToeffiPy is highly inspired by the 
 [live coding challenge](https://www.youtube.com/watch?v=RxmBukb-Om4&list=PLeDtc0GP5ICldMkRg-DkhpFX1rRBNHTCs) 
