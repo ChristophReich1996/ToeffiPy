@@ -26,8 +26,13 @@ plt.plot(x.data, y.data)
 plt.plot(x.data, x.grad.data)
 plt.show()
 ```
+<img src="/examples/tanh.png" alt="8" width = 320px height = 240px>
 
-![Tanh plot](examples/tanh.png)
+# Installation
+ToeffiPy can be easily installed by utilizing pip.
+````shell script
+pip install git+https://github.com/ChristophReich1996/ToeffiPy
+````
 
 # Theory
 
@@ -149,12 +154,6 @@ ffnn.load_state_dict(autograd.load('ffnn.npz'))
 * [Simple regression with a neural network](examples/regression_nn.py)
 * [MNIST classification with a feed forward neural network](examples/mnist_ff.py)
 * [MNIST classification with a CNN](examples/mnist_conv.py)
-
-# Installation
-
-1. Clone repository `git clone https://github.com/ChristophReich1996/ToeffiPy`
-2. Navigate to setup.py `cd ToeffiPy`
-3. Install `python setup.py install`
 
 # Data
 
