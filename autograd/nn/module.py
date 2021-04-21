@@ -69,13 +69,13 @@ class Module(object):
                 state_dict[str(len(state_dict))] = parameter
         return state_dict
 
-    def load_state_dict(self, state_dict: np.lib.npyio.NpzFile) -> None:
+    def load_state_dict(self, state_dict: Union[np.lib.npyio.NpzFile, Dict]) -> None:
         """
         Function loads a state dict
         :param state_dict: (np.lib.npyio.NpzFile) State dict as a NpzFile to be loaded
         """
         # Loop over state dict and parameters
-        for name, parameter in zip(state_dict.files, self.parameters()):
+        for name, parameter in zip(state_dict if isinstance(state_dict, dict) else state_dict.files, self.parameters()):
             # Check sizes
             assert state_dict[name].shape == parameter.shape, 'Error while loading state dict.'
             # Set data
