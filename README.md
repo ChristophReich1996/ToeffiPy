@@ -1,4 +1,5 @@
 # ToeffiPy
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ChristophReich1996/ToeffiPy/blob/master/LICENSE)
 
 ToeffiPy is a fully [NumPy](https://numpy.org/) based autograd and deep learning library for 
 [Python 3](https://www.python.org/). The core tensor class of ToeffiPy is highly inspired by the 
@@ -25,8 +26,13 @@ plt.plot(x.data, y.data)
 plt.plot(x.data, x.grad.data)
 plt.show()
 ```
+<img src="/examples/tanh.png" alt="8" width = 320px height = 240px>
 
-![Tanh plot](examples/tanh.png)
+# Installation
+ToeffiPy can be easily installed by utilizing pip.
+````shell script
+pip install git+https://github.com/ChristophReich1996/ToeffiPy
+````
 
 # Theory
 
@@ -148,12 +154,6 @@ ffnn.load_state_dict(autograd.load('ffnn.npz'))
 * [Simple regression with a neural network](examples/regression_nn.py)
 * [MNIST classification with a feed forward neural network](examples/mnist_ff.py)
 * [MNIST classification with a CNN](examples/mnist_conv.py)
-
-# Installation
-
-1. Clone repository `git clone https://github.com/ChristophReich1996/ToeffiPy`
-2. Navigate to setup.py `cd ToeffiPy`
-3. Install `python setup.py install`
 
 # Data
 
