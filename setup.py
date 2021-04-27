@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='ToeffiPy',
+    name='toeffipy',
     version='1.0',
     description='ToeffiPy is a simple autograd/deep learning library based only on numpy.',
     author='Christoph Reich',
