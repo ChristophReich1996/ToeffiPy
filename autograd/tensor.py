@@ -1,4 +1,4 @@
-from __future__ import annotations
+# from __future__ import annotations
 from typing import List, Union, Optional, Callable, Tuple, Dict
 from dataclasses import dataclass
 
@@ -10,7 +10,7 @@ class Dependency:
     """
     Data class including activation and gradient function
     """
-    activation: Tensor
+    activation: "Tensor"
     grad_fn: Callable[[np.ndarray], np.ndarray]
 
 
@@ -20,7 +20,7 @@ class Tensor(object):
     """
 
     def __init__(self,
-                 data: Union[int, list, float, np.ndarray, Tensor],
+                 data: Union[int, list, float, np.ndarray, "Tensor"],
                  requires_grad: Optional[bool] = False,
                  dependencies: Optional[List] = None) -> None:
         """
@@ -57,7 +57,7 @@ class Tensor(object):
         return self._data
 
     @data.setter
-    def data(self, data: Union[int, list, float, np.ndarray, Tensor]) -> None:
+    def data(self, data: Union[int, list, float, np.ndarray, "Tensor"]) -> None:
         """
         Method sets data field of tensor
         :param data: (int, list, float, np.ndarray, Tensor) Data of the tensor
@@ -69,7 +69,7 @@ class Tensor(object):
         self.shape = self._data.shape
 
     @staticmethod
-    def __make_ndarray(data: Union[int, list, float, np.ndarray, Tensor]) -> np.ndarray:
+    def __make_ndarray(data: Union[int, list, float, np.ndarray, "Tensor"]) -> np.ndarray:
         """
         Method converts a given data field to a np.ndarray, including floats.
         :param data: (int, list, float, np.ndarray, Tensor) Data field
@@ -90,7 +90,7 @@ class Tensor(object):
             return np.array(data, dtype=float)
 
     @staticmethod
-    def __ensure_tensor(data_object: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __ensure_tensor(data_object: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method converts a given data object to a tensor
         :param data_object: (Tensor, int, list, float, np.ndarray) Data object
@@ -108,7 +108,7 @@ class Tensor(object):
         """
         return 'Tensor({}, requires_grad={}, shape={})'.format(self.data, self.requires_grad, self.shape)
 
-    def backward(self, grad: Optional[Tensor] = None) -> None:
+    def backward(self, grad: Optional["Tensor"] = None) -> None:
         """
         Method computes the gradient of the tensor
         :param grad: (Optional[Tensor]) Previous gradient
@@ -128,7 +128,7 @@ class Tensor(object):
             backward_grad = dependency.grad_fn(grad.data)
             dependency.activation.backward(Tensor(backward_grad))
 
-    def __add__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __add__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable addition. self + other.
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -136,7 +136,7 @@ class Tensor(object):
         """
         return add(self, Tensor.__ensure_tensor(other))
 
-    def __radd__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __radd__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable addition. other + self.
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -144,7 +144,7 @@ class Tensor(object):
         """
         return add(Tensor.__ensure_tensor(other), self)
 
-    def __iadd__(self, other: Union[int, list, float, np.ndarray, Tensor]) -> Tensor:
+    def __iadd__(self, other: Union[int, list, float, np.ndarray, "Tensor"]) -> "Tensor":
         """
         Method performs inplace addition. self += other. Gradients not supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -154,7 +154,7 @@ class Tensor(object):
         self.data = self.data + Tensor.__make_ndarray(other)
         return self
 
-    def __sub__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __sub__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable subtraction. self + other.
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -162,7 +162,7 @@ class Tensor(object):
         """
         return sub(self, Tensor.__ensure_tensor(other))
 
-    def __rsub__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __rsub__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable subtraction. other + self.
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -170,7 +170,7 @@ class Tensor(object):
         """
         return sub(Tensor.__ensure_tensor(other), self)
 
-    def __isub__(self, other: Union[int, list, float, np.ndarray, Tensor]) -> Tensor:
+    def __isub__(self, other: Union[int, list, float, np.ndarray, "Tensor"]) -> "Tensor":
         """
         Method performs inplace subtraction. self -= other. Gradients not supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -180,7 +180,7 @@ class Tensor(object):
         self.data = self.data - Tensor.__make_ndarray(other)
         return self
 
-    def __mul__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __mul__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable multiplication. self * other.
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -188,7 +188,7 @@ class Tensor(object):
         """
         return mul(self, Tensor.__ensure_tensor(other))
 
-    def __rmul__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __rmul__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable multiplication. other * self.
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -196,7 +196,7 @@ class Tensor(object):
         """
         return mul(Tensor.__ensure_tensor(other), self)
 
-    def __imul__(self, other: Union[int, list, float, np.ndarray, Tensor]) -> Tensor:
+    def __imul__(self, other: Union[int, list, float, np.ndarray, "Tensor"]) -> "Tensor":
         """
         Method performs inplace multiplication. self *= other. Gradients not supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -206,7 +206,7 @@ class Tensor(object):
         self.data = self.data * Tensor.__make_ndarray(other)
         return self
 
-    def __truediv__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __truediv__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method perform differentiable element-wise division. self / other. Batching supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -214,7 +214,7 @@ class Tensor(object):
         """
         return div(self, Tensor.__ensure_tensor(other))
 
-    def __rtruediv__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __rtruediv__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method perform differentiable element-wise division. other / self. Batching supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -222,7 +222,7 @@ class Tensor(object):
         """
         return div(Tensor.__ensure_tensor(other), self)
 
-    def __itruediv__(self, other: Union[int, list, float, np.ndarray, Tensor]) -> Tensor:
+    def __itruediv__(self, other: Union[int, list, float, np.ndarray, "Tensor"]) -> "Tensor":
         """
         Method performs inplace division. self /= other. Gradients not supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -232,7 +232,7 @@ class Tensor(object):
         self.data = self.data / Tensor.__make_ndarray(other)
         return self
 
-    def __matmul__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __matmul__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable matrix multiplication. self @ other. Batching supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -240,7 +240,7 @@ class Tensor(object):
         """
         return matmul(self, Tensor.__ensure_tensor(other))
 
-    def __rmatmul__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __rmatmul__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Method performs differentiable matrix multiplication. self @ other. Batching supported!
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -248,14 +248,14 @@ class Tensor(object):
         """
         return matmul(Tensor.__ensure_tensor(other), self)
 
-    def __neg__(self) -> Tensor:
+    def __neg__(self) -> "Tensor":
         """
         Method performs negation of a autograd tensor.
         :return: (Tensor) Inverted output tensor
         """
         return neg(self)
 
-    def __pow__(self, power: Union[int, float]) -> Tensor:
+    def __pow__(self, power: Union[int, float]) -> "Tensor":
         """
         Method applies an element-wise power to a tensor.
         :param power: (int, float) Exponent
@@ -263,14 +263,14 @@ class Tensor(object):
         """
         return pow(self, power)
 
-    def __abs__(self) -> Tensor:
+    def __abs__(self) -> "Tensor":
         """
         Method apply the absolute function to a tensor.
         :return: (Tensor) Output tensor
         """
         return abs(self)
 
-    def __getitem__(self, indexes: Union[Tuple[slice, ...], slice, Tuple[int, ...], int]) -> Tensor:
+    def __getitem__(self, indexes: Union[Tuple[slice, ...], slice, Tuple[int, ...], int]) -> "Tensor":
         """
         Get item method.
         :param indexes: (Any) Indexes
@@ -278,7 +278,7 @@ class Tensor(object):
         """
         return _slice(self, indexes)
 
-    def __eq__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __eq__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Implements the equal comparison function
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -287,7 +287,7 @@ class Tensor(object):
         self.data = (self.data == Tensor.__ensure_tensor(other).data).astype(float)
         return self
 
-    def __ne__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __ne__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Implements the not equal comparison function
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -296,7 +296,7 @@ class Tensor(object):
         self.data = (self.data != Tensor.__ensure_tensor(other).data).astype(float)
         return self
 
-    def __lt__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __lt__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Implements the less-than comparison function
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -305,7 +305,7 @@ class Tensor(object):
         self.data = (self.data < Tensor.__ensure_tensor(other).data).astype(float)
         return self
 
-    def __gt__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __gt__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Implements the greater-than comparison function
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -314,7 +314,7 @@ class Tensor(object):
         self.data = (self.data > Tensor.__ensure_tensor(other).data).astype(float)
         return self
 
-    def __le__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __le__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Implements the less-than-or-equal-to comparison function
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -323,7 +323,7 @@ class Tensor(object):
         self.data = (self.data <= Tensor.__ensure_tensor(other).data).astype(float)
         return self
 
-    def __ge__(self, other: Union[Tensor, int, list, float, np.ndarray]) -> Tensor:
+    def __ge__(self, other: Union["Tensor", int, list, float, np.ndarray]) -> "Tensor":
         """
         Implements the greater-than-or-equal-to comparison function
         :param other: (Tensor, int, list, float, np.ndarray) Other tensor like object
@@ -332,7 +332,7 @@ class Tensor(object):
         self.data = (self.data >= Tensor.__ensure_tensor(other).data).astype(float)
         return self
 
-    def __round__(self, n: int = 0) -> Tensor:
+    def __round__(self, n: int = 0) -> "Tensor":
         """
         Method implements the round function
         :param n: (int) Decimals to round
@@ -341,7 +341,7 @@ class Tensor(object):
         self.data = np.round(self.data, decimals=n)
         return self
 
-    def sum(self, axis: int = None, keepdims: bool = False) -> Tensor:
+    def sum(self, axis: int = None, keepdims: bool = False) -> "Tensor":
         """
         Method sums up a given tensor.
         :param axis: (int) Axis to apply summation
@@ -350,35 +350,35 @@ class Tensor(object):
         """
         return sum(self, axis=axis, keepdims=keepdims)
 
-    def mean(self) -> Tensor:
+    def mean(self) -> "Tensor":
         """
         Method computes the mean of a tensor.
         :return: (Tensor) Output tensor
         """
         return mean(self)
 
-    def var(self) -> Tensor:
+    def var(self) -> "Tensor":
         """
         Method computes the variance of a tensor.
         :return: (Tensor) Output tensor
         """
         return var(self)
 
-    def std(self) -> Tensor:
+    def std(self) -> "Tensor":
         """
         Method computes the standard deviation of a tensor.
         :return: (Tensor) Output tensor
         """
         return std(self)
 
-    def clone(self) -> Tensor:
+    def clone(self) -> "Tensor":
         """
         Method clones a given tensor but input and output tensors remain in graph
         :return: (Tensor) Output tensor
         """
         return clone(self)
 
-    def unsqueeze(self, dim: int = -1) -> Tensor:
+    def unsqueeze(self, dim: int = -1) -> "Tensor":
         """
         Method adds a dimension to the tensor into the given position.
         :param dim: (int) Position to add the dimension
@@ -386,7 +386,7 @@ class Tensor(object):
         """
         return unsqueeze(self, dim=dim)
 
-    def squeeze(self, dim: Optional[int] = -1) -> Tensor:
+    def squeeze(self, dim: Optional[int] = -1) -> "Tensor":
         """
         Method removes a dimension to the tensor at a given position.
         :param dim: (Optional[int]) Position to add the dimension
