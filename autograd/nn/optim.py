@@ -3,7 +3,6 @@ from typing import Iterator, Callable
 import numpy as np
 
 from .parameter import Parameter
-from .module import Module
 
 
 class Optimizer(object):
@@ -30,7 +29,7 @@ class SGD(Optimizer):
     Class implements a stochastic gradient decent optimizer
     """
 
-    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.01) -> None:
+    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = .01) -> None:
         """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
@@ -53,7 +52,7 @@ class SGD(Optimizer):
 
 class SGDMomentum(Optimizer):
 
-    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.01, momentum: float = 0.9) -> None:
+    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = .01, momentum: float = .9) -> None:
         """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
@@ -92,8 +91,8 @@ class SGDMomentum(Optimizer):
 
 class Adam(Optimizer):
 
-    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.001, beta_1: float = 0.9,
-                 beta_2: float = 0.999, eps: float = 1e-08) -> None:
+    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = .001, beta_1: float = .9,
+                 beta_2: float = .999, eps: float = 1e-08) -> None:
         """
         Constructor
         :param parameters: (Iterator[Parameter]) Module parameters to be optimized
@@ -147,7 +146,7 @@ class RMSprop(Optimizer):
     Root mean squared prop optimizer implementation
     """
 
-    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = 0.01, alpha: float = 0.99,
+    def __init__(self, parameters: Callable[[], Iterator[Parameter]], lr: float = .01, alpha: float = .99,
                  eps=1e-08) -> None:
         """
         Constructor

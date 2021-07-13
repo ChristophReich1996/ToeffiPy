@@ -21,12 +21,12 @@ class Tensor(object):
 
     def __init__(self,
                  data: Union[int, list, float, np.ndarray, Tensor],
-                 requires_grad: Optional[bool] = False,
+                 requires_grad: bool = False,
                  dependencies: Optional[List] = None) -> None:
         """
         Constructor method
         :param data: (int, list, float, np.ndarray, Tensor) Data of the tensor
-        :param requires_grad: (Optional[bool])
+        :param requires_grad: (bool)
         :param dependencies: (Optional[List[Dependency]])
         """
         # Save parameter
@@ -386,10 +386,10 @@ class Tensor(object):
         """
         return unsqueeze(self, dim=dim)
 
-    def squeeze(self, dim: Optional[int] = -1) -> Tensor:
+    def squeeze(self, dim: int = -1) -> Tensor:
         """
         Method removes a dimension to the tensor at a given position.
-        :param dim: (Optional[int]) Position to add the dimension
+        :param dim: (int) Position to add the dimension
         :return: (Tensor) Output tensor
         """
         return squeeze(self, dim=dim)
@@ -549,12 +549,12 @@ def mul(tensor_1: Tensor, tensor_2: Tensor) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def sum(tensor: Tensor, axis: Optional[int] = None, keepdims: Optional[bool] = False) -> Tensor:
+def sum(tensor: Tensor, axis: Optional[int] = None, keepdims: bool = False) -> Tensor:
     """
     Sums up a tensor to a scalar value
     :param tensor: (Tensor) Input tensor
     :param axis: (Optional[int]) Axis to apply summation
-    :param keepdims: (Optional[bool]) If true summed up dimensions are retained
+    :param keepdims: (bool) If true summed up dimensions are retained
     :return: (Tensor) Output tensor (scalar)
     """
     # Save originale shape
@@ -786,11 +786,11 @@ def _slice(tensor: Tensor, indexes: Union[Tuple[slice, ...], slice]) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def unsqueeze(tensor: Tensor, dim: Optional[int] = -1) -> Tensor:
+def unsqueeze(tensor: Tensor, dim: int = -1) -> Tensor:
     """
     Function adds a dimension to a given tensor
     :param tensor: (Tensor) Input tensor
-    :param dim: (Optional[int]) Position where the new dimension is places
+    :param dim: (int) Position where the new dimension is places
     :return: (Tensor) Output tensor with increased dimensionality of one
     """
     # Add dim
@@ -802,11 +802,11 @@ def unsqueeze(tensor: Tensor, dim: Optional[int] = -1) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def squeeze(tensor: Tensor, dim: Optional[int] = -1) -> Tensor:
+def squeeze(tensor: Tensor, dim: int = -1) -> Tensor:
     """
     Function removes a dimension of a given tensor
     :param tensor: (Tensor) Input tensor
-    :param dim: (Optional[int]) Position where the new dimension is places
+    :param dim: (int) Position where the new dimension is places
     :return: (Tensor) Output tensor with increased dimensionality of one
     """
     # Add dim
@@ -833,11 +833,11 @@ def clone(tensor: Tensor) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def stack(tensors: List[Tensor], dim: Optional[int] = 0) -> Tensor:
+def stack(tensors: List[Tensor], dim: int = 0) -> Tensor:
     """
     Function stacks a list of tensor up to one tensor. Autograd is not supported!
     :param tensors: (List[Tensor]) List of tensors
-    :param dim: (Optional[int]) Dimension to stack
+    :param dim: (int) Dimension to stack
     :return: (Tensor) Output tensor
     """
     # Init list of ndarrays
@@ -850,12 +850,12 @@ def stack(tensors: List[Tensor], dim: Optional[int] = 0) -> Tensor:
     return Tensor(data=np.stack(ndarrays, axis=dim))
 
 
-def pad_1d(tensor: Tensor, pad_width: Tuple[int, int], value: Optional[float] = 0.0) -> Tensor:
+def pad_1d(tensor: Tensor, pad_width: Tuple[int, int], value: float = 0.0) -> Tensor:
     """
     Function applies padding to a given 1d tensor (batch size, *, features), * various dimension
     :param tensor: (Tensor) Input tensor of shape (batch size, *, features)
     :param pad_width: (Tuple[int, int]) Number of values padded to the edges of each axis
-    :param value: (Optional[float]) Padding value
+    :param value: (float) Padding value
     :return: (Tensor) Output tensor (batch size, *, features + padded width)
     """
     # Apply padding
@@ -885,12 +885,12 @@ def pad_1d(tensor: Tensor, pad_width: Tuple[int, int], value: Optional[float] = 
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def pad_2d(tensor: Tensor, pad_width: Tuple[Tuple[int, int], Tuple[int, int]], value: Optional[float] = 0.0) -> Tensor:
+def pad_2d(tensor: Tensor, pad_width: Tuple[Tuple[int, int], Tuple[int, int]], value: float = 0.0) -> Tensor:
     """
     Function applies padding to a given 2d tensor (batch size, channels, height, width)
     :param tensor: (Tensor) Input tensor of shape (batch size, channels, height, width)
     :param pad_width: (Tuple[Tuple[int, int], Tuple[int, int]]) Number of values padded to the edges of each axis
-    :param value: (Optional[float]) Padding value
+    :param value: (float) Padding value
     :return: (Tensor) Output tensor (batch size, channels, height + padded width, width + padded width)
     """
     # Apply padding
@@ -916,11 +916,11 @@ def pad_2d(tensor: Tensor, pad_width: Tuple[Tuple[int, int], Tuple[int, int]], v
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def flatten(tensor: Tensor, starting_dim: Optional[int] = 1) -> Tensor:
+def flatten(tensor: Tensor, starting_dim: int = 1) -> Tensor:
     """
     This function implements a flatten operation which reshapes (flattens) a given tensor
     :param tensor: (Tensor) Input tensor
-    :param starting_dim: (Optional[int]) Dimension to start flattening
+    :param starting_dim: (int) Dimension to start flattening
     :return: (Tensor) Flattened output tensor
     """
     # Save original shape

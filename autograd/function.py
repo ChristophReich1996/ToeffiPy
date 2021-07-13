@@ -1,5 +1,3 @@
-from typing import Optional
-
 import numpy as np
 
 from autograd.tensor import Tensor, Dependency
@@ -203,11 +201,11 @@ def softplus(tensor: Tensor) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependency)
 
 
-def elu(tensor: Tensor, alpha: Optional[float] = 1.0) -> Tensor:
+def elu(tensor: Tensor, alpha: float = 1.) -> Tensor:
     """
     Function implements the elu function in autograd
     :param tensor: (Tensor) Input tensor
-    :param alpha: (Optional[float]) Alpha parameter of exponential slope
+    :param alpha: (float) Alpha parameter of exponential slope
     :return: (Tensor) Output Tensor
     """
     # Apply elu
@@ -231,11 +229,11 @@ def elu(tensor: Tensor, alpha: Optional[float] = 1.0) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependency)
 
 
-def leaky_relu(tensor: Tensor, negative_slope: Optional[float] = 0.2) -> Tensor:
+def leaky_relu(tensor: Tensor, negative_slope: float = 0.2) -> Tensor:
     """
     Function implements the leaky-relu function in autograd
     :param tensor: (Tensor) Input tensor
-    :param negative_slope: (Optional[float]) Negative slope of leaky-relu
+    :param negative_slope: (float) Negative slope of leaky-relu
     :return: (Tensor) Output Tensor
     """
     # Apply leaky-relu
