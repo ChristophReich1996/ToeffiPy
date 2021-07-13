@@ -4,7 +4,7 @@ from .module import Module, Sequential
 from .parameter import Parameter
 # Import layers modules
 from .layer import Linear, Dropout, BatchNorm1d, MaxPool1d, AvgPool1d, Conv1d, UpsamplingNearest1d, Conv2d, MaxPool2d, \
-    AvgPool2d
+    AvgPool2d, BatchNorm2d, Dropout2D, UpsamplingNearest2d
 # Import activations modules
 from .activation import ReLU, Identity, Sigmoid, Softmax, LeakyReLU, Tanh, Softplus, ELU, SeLU, PAU
 # Import loss modules
@@ -14,4 +14,4 @@ from .optim import SGD, Adam, RMSprop, SGDMomentum
 # Import functions
 from .functional import dropout, batch_norm_1d, cross_entropy_loss, softmax_cross_entropy_loss, max_pool_1d, linear, \
     avg_pool_1d, l1_loss, binary_cross_entropy_loss, mse_loss, softmax, conv_1d, upsampling_nearest_1d, conv_2d, \
-    max_pool_2d
+    max_pool_2d, avg_pool_2d, batch_norm_2d, dropout2d, upsampling_nearest_2d
