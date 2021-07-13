@@ -45,11 +45,11 @@ class MNIST(autograd.data.Dataset):
         """
         return self.inputs.shape[0]
 
-    def __getitem__(self, item) -> Tuple[autograd.Tensor, autograd.Tensor]:
+    def __getitem__(self, item: int) -> Tuple[autograd.Tensor, autograd.Tensor]:
         """
         Method returns the input and the corresponding label
-        :param item:
-        :return:
+        :param item: (int) Index of sample to be returned
+        :return: (Tuple[autograd.Tensor, autograd.Tensor]) Input and corresponding label
         """
         return self.inputs[item], self.labels[item]
 
@@ -71,11 +71,13 @@ class ResidualBlock(nn.Module):
         self.main_mapping = nn.Sequential(
             nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
                       bias=True),
+            nn.BatchNorm2d(num_channels=out_channels, track_running_stats=True),
             nn.PAU(),
             nn.Conv2d(in_channels=out_channels, out_channels=out_channels, kernel_size=(3, 3), padding=(1, 1),
                       bias=True),
+            nn.BatchNorm2d(num_channels=out_channels, track_running_stats=True),
             nn.PAU(),
-            nn.Dropout(p=0.1)
+            nn.Dropout2D(p=0.1)
         )
         # Init residual mapping
         self.residual_mapping = nn.Conv2d(in_channels=in_channels, out_channels=out_channels, kernel_size=(1, 1),

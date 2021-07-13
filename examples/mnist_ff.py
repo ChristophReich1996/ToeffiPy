@@ -37,11 +37,11 @@ class MNIST(autograd.data.Dataset):
         """
         return self.inputs.shape[0]
 
-    def __getitem__(self, item) -> Tuple[autograd.Tensor, autograd.Tensor]:
+    def __getitem__(self, item: int) -> Tuple[autograd.Tensor, autograd.Tensor]:
         """
         Method returns the input and the corresponding label
-        :param item:
-        :return:
+        :param item: (int) Index of sample to be returned
+        :return: (Tuple[autograd.Tensor, autograd.Tensor]) Input and corresponding label
         """
         return self.inputs[item], self.labels[item]
 
@@ -51,7 +51,7 @@ class NeuralNetwork(nn.Module):
     This class implements a simple two layer feed forward neural network for classification.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor
         """
