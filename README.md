@@ -1,6 +1,6 @@
 # ToeffiPy
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ChristophReich1996/ToeffiPy/blob/master/LICENSE)
-[![Python 3.8](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 
 ToeffiPy is a fully [NumPy](https://numpy.org/) based autograd and deep learning library for 
 [Python 3.7+](https://www.python.org/). The core tensor class of ToeffiPy is highly inspired by the 
