@@ -1,4 +1,4 @@
-from typing import List, Union, Tuple
+from typing import List, Union, Tuple, Optional
 
 import autograd
 from autograd import Tensor
@@ -29,7 +29,7 @@ def _conv_2d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
     return np.tensordot(input, kernel, axes=3).transpose((0, 3, 1, 2))
 
 
-def conv_2d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
+def conv_2d(input: Tensor, kernel: Tensor, bias: Optional[Tensor] = None) -> Tensor:
     """
     This function implements a 2d convolution (cross-correlation) in autograd
     :param input: (Tensor) Input tensor of shape (batch size, input channels, height, width)
@@ -222,17 +222,21 @@ def avg_pool_2d(tensor: Tensor, kernel_size: Tuple[int, int]) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mean: Tensor = None, std: Tensor = None,
-                  eps: float = 1e-05, return_mean_and_std: bool = True) -> Union[Tensor, Tuple[Tensor, Tensor, Tensor]]:
+def batch_norm_1d(tensor: Tensor, gamma: Optional[Tensor] = None, beta: Optional[Tensor] = None,
+                  mean: Optional[Tensor] = None, std: Optional[Tensor] = None,
+                  eps: float = 1e-05, running_mean: Optional[Tensor] = None, running_std: Optional[Tensor] = None,
+                  momentum: float = None) -> Union[Tensor, Tuple[Tensor, Tensor, Tensor]]:
     """
-    Function implements a 2d batch normalization operation
+    Function implements the 1D batch normalization operation
     :param tensor: (Tensor) Input tensor
-    :param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
-    :param beta: (Tensor) Leanable beta factor which is added to the output
+    :param gamma: (Tensor) Learnable gamma factor which is multiplied to the output
+    :param beta: (Tensor) Learnable beta factor which is added to the output
     :param mean: (Tensor) Mean for normalization
     :param std: (Tensor) Variance for normalization
     :param eps: (float) Constant for numerical stability
-    :param return_mean_and_std: (bool) If true mean and std gets returned
+    :param running_mean: (Optional[Tensor]) Running mean
+    :param running_std: (Optional[Tensor]) Running std
+    :param momentum: (Optional[float]) Momentum of running statistics
     :return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor
     """
     # Compute mean and std if not given
@@ -240,6 +244,60 @@ def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mea
         mean = tensor.mean()
     if std is None:
         std = tensor.std()
+    # If running statistics are given perform update
+    if running_mean is not None and running_std is not None and momentum is not None:
+        running_mean.data = momentum * running_mean.data + (1. - momentum) * mean.data
+        running_std.data = momentum * running_std.data + (1. - momentum) * std.data
+        mean.data = running_mean.data
+        std.data = running_std.data
+    # Apply normalization
+    output = (tensor - mean) / (std + eps)
+    # Apply learnable parameters if given
+    if gamma is not None:
+        # Case if output has two dimensions
+        if output.data.ndim == 2:
+            output = output * gamma.unsqueeze(dim=0)
+        # Case if output has three dimensions
+        else:
+            output = output * gamma.unsqueeze(dim=0).unsqueeze(dim=-1)
+    if beta is not None:
+        # Case if output has two dimensions
+        if output.data.ndim == 2:
+            output = output + beta.unsqueeze(dim=0)
+        # Case if output has three dimensions
+        else:
+            output = output + beta.unsqueeze(dim=0).unsqueeze(dim=-1)
+    return output, running_mean, running_std
+
+
+def batch_norm_2d(tensor: Tensor, gamma: Optional[Tensor] = None, beta: Optional[Tensor] = None,
+                  mean: Optional[Tensor] = None, std: Optional[Tensor] = None,
+                  eps: float = 1e-05, running_mean: Optional[Tensor] = None, running_std: Optional[Tensor] = None,
+                  momentum: float = None) -> Tuple[Tensor, Optional[Tensor], Optional[Tensor]]:
+    """
+    Function implements a 2D batch normalization operation
+    :param tensor: (Tensor) Input tensor
+    :param gamma: (Optional[Tensor]) Learnable gamma factor which is multiplied to the output
+    :param beta: (Optional[Tensor]) Learnable beta factor which is added to the output
+    :param mean: (Optional[Tensor]) Mean for normalization
+    :param std: (Optional[Tensor]) Variance for normalization
+    :param eps: (float) Constant for numerical stability
+    :param running_mean: (Optional[Tensor]) Running mean
+    :param running_std: (Optional[Tensor]) Running std
+    :param momentum: (Optional[float]) Momentum of running statistics
+    :return: (Tuple[Tensor, Optional[Tensor], Optional[Tensor]]) Output tensor and optional running mean and std tensor
+    """
+    # Compute mean and std if not given
+    if mean is None:
+        mean = tensor.mean()
+    if std is None:
+        std = tensor.std()
+    # If running statistics are given perform update
+    if running_mean is not None and running_std is not None and momentum is not None:
+        running_mean.data = momentum * running_mean.data + (1. - momentum) * mean.data
+        running_std.data = momentum * running_std.data + (1. - momentum) * std.data
+        mean.data = running_mean.data
+        std.data = running_std.data
     # Apply normalization
     output = (tensor - mean) / (std + eps)
     # Apply learnable parameters if given
@@ -247,9 +305,7 @@ def batch_norm_2d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mea
         output = output * gamma.unsqueeze(dim=0).unsqueeze(dim=-1).unsqueeze(dim=-1)
     if beta is not None:
         output = output + beta.unsqueeze(dim=0).unsqueeze(dim=-1).unsqueeze(dim=-1)
-    if return_mean_and_std:
-        return output, mean, std
-    return output
+    return output, running_mean, running_std
 
 
 def upsampling_nearest_2d(input: Tensor, scale_factor: int = 2) -> Tensor:
@@ -342,7 +398,7 @@ def _conv_1d_core(input: np.ndarray, kernel: np.ndarray) -> np.ndarray:
     return np.einsum('oci, bcik->bok', kernel, sub_matrices)
 
 
-def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
+def conv_1d(input: Tensor, kernel: Tensor, bias: Optional[Tensor] = None) -> Tensor:
     """
     This function implements a 1d convolution (cross-correlation) in autograd
     :param input: (Tensor) Input tensor of shape (batch size, input channels, input features)
@@ -434,7 +490,7 @@ def conv_1d(input: Tensor, kernel: Tensor, bias: Tensor = None) -> Tensor:
     return Tensor(data=output_bias_add, dependencies=dependencies, requires_grad=requires_grad)
 
 
-def linear(input: Tensor, weight: Tensor, bias: Tensor = None) -> Tensor:
+def linear(input: Tensor, weight: Tensor, bias: Optional[Tensor] = None) -> Tensor:
     """
     This function implements a linear layer in autograd
     :param input: (Tensor) Input tensor of shape (batch size, *, input features). * various number of channels
@@ -626,46 +682,6 @@ def avg_pool_1d(tensor: Tensor, kernel_size: int) -> Tensor:
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 
-def batch_norm_1d(tensor: Tensor, gamma: Tensor = None, beta: Tensor = None, mean: Tensor = None, std: Tensor = None,
-                  eps: float = 1e-05, return_mean_and_std: bool = True) -> Union[Tensor, Tuple[Tensor, Tensor, Tensor]]:
-    """
-    Function implements a batch normalization operation
-    :param tensor: (Tensor) Input tensor
-    :param gamma: (Tensor) Leanable gamma factor which is multiplied to the output
-    :param beta: (Tensor) Leanable beta factor which is added to the output
-    :param mean: (Tensor) Mean for normalization
-    :param std: (Tensor) Variance for normalization
-    :param eps: (float) Constant for numerical stability
-    :param return_mean_and_std: (bool) If true mean and std gets returned
-    :return: (Tensor, Tuple[Tensor, Tensor, Tensor]) Output tensor and optional mean and std tensor
-    """
-    # Compute mean and std if not given
-    if mean is None:
-        mean = tensor.mean()
-    if std is None:
-        std = tensor.std()
-    # Apply normalization
-    output = (tensor - mean) / (std + eps)
-    # Apply learnable parameters if given
-    if gamma is not None:
-        # Case if output has two dimensions
-        if output.data.ndim == 2:
-            output = output * gamma.unsqueeze(dim=0)
-        # Case if output has three dimensions
-        else:
-            output = output * gamma.unsqueeze(dim=0).unsqueeze(dim=-1)
-    if beta is not None:
-        # Case if output has two dimensions
-        if output.data.ndim == 2:
-            output = output + beta.unsqueeze(dim=0)
-        # Case if output has three dimensions
-        else:
-            output = output + beta.unsqueeze(dim=0).unsqueeze(dim=-1)
-    if return_mean_and_std:
-        return output, mean, std
-    return output
-
-
 def dropout(tensor: Tensor, p: float = 0.2) -> Tensor:
     """
     Method performs dropout with a autograd tensor.
@@ -676,11 +692,31 @@ def dropout(tensor: Tensor, p: float = 0.2) -> Tensor:
     # Check argument
     assert 0.0 <= p <= 1.0, 'Parameter p must be in the range of [0, 1].'
     # Apply dropout
-    output = tensor * (np.random.uniform(0.0, 1.0, size=tensor.shape) > p).astype(float)
+    mask = (np.random.randint(0, 1, size=tensor.shape) > p).astype(float)
+    output = tensor.data * mask
     # Check if grad is needed
     requires_grad = tensor.requires_grad
     # Add grad function
-    dependencies = [Dependency(tensor, lambda grad: grad)] if requires_grad else None
+    dependencies = [Dependency(tensor, lambda grad: grad * mask)] if requires_grad else None
+    return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
+
+
+def dropout2d(tensor: Tensor, p: float = 0.2) -> Tensor:
+    """
+    Method performs 2D channel-wise dropout with a autograd tensor.
+    :param tensor: (Tensor) Input tensor
+    :param p: (float) Probability that a activation element is set to zero
+    :return: (Tensor) Output tensor
+    """
+    # Check argument
+    assert 0.0 <= p <= 1.0, 'Parameter p must be in the range of [0, 1].'
+    # Apply dropout
+    mask = (np.random.randint(0, 2, size=tensor.shape[0]) > p).astype(float).reshape(1, -1, 1, 1)
+    output = tensor.data * mask
+    # Check if grad is needed
+    requires_grad = tensor.requires_grad
+    # Add grad function
+    dependencies = [Dependency(tensor, lambda grad: grad * mask)] if requires_grad else None
     return Tensor(data=output, requires_grad=requires_grad, dependencies=dependencies)
 
 

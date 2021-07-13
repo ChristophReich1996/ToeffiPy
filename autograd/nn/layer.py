@@ -115,15 +115,19 @@ class BatchNorm1d(Module):
         :return: (Tensor) Output tensor
         """
         if self.train_mode and self.track_running_stats:
-            output, mean, std = functional.batch_norm_2d(input, gamma=self.gamma, beta=self.beta, eps=self.eps,
-                                                         return_mean_and_std=True)
-            # Apply running mean and std
-            self.running_mean.data = self.momentum * self.running_mean.data + (1 - self.momentum) * mean.data
-            self.running_std.data = self.momentum * self.running_std.data + (1 - self.momentum) * std.data
-            return output
+            output, running_mean, running_std = functional.batch_norm_1d(input, gamma=self.gamma, beta=self.beta,
+                                                                         eps=self.eps,
+                                                                         running_mean=self.running_mean,
+                                                                         running_std=self.running_std)
+            # Save new running statistics
+            self.running_mean.data = running_mean.data
+            self.running_std.data = running_std.data
+        elif not self.track_running_stats:
+            output, _, _ = functional.batch_norm_1d(input, gamma=self.gamma, beta=self.beta, eps=self.eps)
         else:
-            return functional.batch_norm_2d(input, gamma=self.gamma, beta=self.beta, eps=self.eps,
-                                            mean=self.running_mean, std=self.running_std, return_mean_and_std=False)
+            output, _, _ = functional.batch_norm_1d(input, gamma=self.gamma, beta=self.beta, eps=self.eps,
+                                                    mean=self.running_mean, std=self.running_std)
+        return output
 
 
 class UpsamplingNearest2d(Module):
@@ -265,15 +269,44 @@ class Dropout(Module):
             return input
 
 
-class BatchNorm1d(Module):
+class Dropout2D(Module):
     """
-    Class implements a batch normalization layer
+    Class implements a 2D channel-wise dropout layer
     """
 
-    def __init__(self, num_channels: int, eps: float = 1e-05, momentum=0.1, affine: bool = True,
+    def __init__(self, p: float = 0.2) -> None:
+        """
+        Constructor
+        :param p: (float) Probability that a activation element is set to zero
+        """
+        # Call super constructor
+        super(Dropout2D, self).__init__()
+        # Check argument
+        assert 0.0 <= p <= 1.0, 'Parameter p must be in the range of [0, 1].'
+        # Save argument
+        self.p = p
+
+    def forward(self, input: Tensor) -> Tensor:
+        """
+        Forward pass
+        :param input: (Tensor) Input tensor
+        :return: (Tensor) Output tensor
+        """
+        if self.train_mode:
+            return functional.dropout2d(input, p=self.p)
+        else:
+            return input
+
+
+class BatchNorm2d(Module):
+    """
+    Class implements a 2d batch normalization layer
+    """
+
+    def __init__(self, num_channels: int, eps: float = 1e-05, momentum: float = 0.1, affine: bool = True,
                  track_running_stats: bool = True) -> None:
         # Call super constructor
-        super(BatchNorm1d, self).__init__()
+        super(BatchNorm2d, self).__init__()
         # Save parameter
         self.eps = eps
         self.momentum = momentum
@@ -282,8 +315,8 @@ class BatchNorm1d(Module):
         self.gamma = Parameter(data=np.ones(num_channels)) if affine else None
         self.beta = Parameter(data=np.zeros(num_channels)) if affine else None
         # Init running mean and std if needed
-        self.running_mean = Tensor(0.0) if self.track_running_stats else None
-        self.running_std = Tensor(1.0) if self.track_running_stats else None
+        self.running_mean = Tensor(0.0, requires_grad=False) if self.track_running_stats else None
+        self.running_std = Tensor(1.0, requires_grad=False) if self.track_running_stats else None
 
     def forward(self, input: Tensor) -> Tensor:
         """
@@ -292,15 +325,18 @@ class BatchNorm1d(Module):
         :return: (Tensor) Output tensor
         """
         if self.train_mode and self.track_running_stats:
-            output, mean, std = functional.batch_norm_1d(input, gamma=self.gamma, beta=self.beta, eps=self.eps,
-                                                         return_mean_and_std=True)
-            # Apply running mean and std
-            self.running_mean.data = self.momentum * self.running_mean.data + (1 - self.momentum) * mean.data
-            self.running_std.data = self.momentum * self.running_std.data + (1 - self.momentum) * std.data
-            return output
+            output, running_mean, running_std = functional.batch_norm_2d(input, gamma=self.gamma, beta=self.beta,
+                                                                         eps=self.eps, running_mean=self.running_mean,
+                                                                         running_std=self.running_std)
+            # Save new running statistics
+            self.running_mean.data = running_mean.data
+            self.running_std.data = running_std.data
+        elif not self.track_running_stats:
+            output, _, _ = functional.batch_norm_2d(input, gamma=self.gamma, beta=self.beta, eps=self.eps)
         else:
-            return functional.batch_norm_1d(input, gamma=self.gamma, beta=self.beta, eps=self.eps,
-                                            mean=self.running_mean, std=self.running_std, return_mean_and_std=False)
+            output, _, _ = functional.batch_norm_2d(input, gamma=self.gamma, beta=self.beta, eps=self.eps,
+                                                    mean=self.running_mean, std=self.running_std)
+        return output
 
 
 class MaxPool1d(Module):
