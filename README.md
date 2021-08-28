@@ -115,7 +115,7 @@ class FFNN(nn.Module):
     This class implements a simple feed forward neural network.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor
         """
