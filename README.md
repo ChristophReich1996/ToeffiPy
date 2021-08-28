@@ -3,13 +3,13 @@
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 
 ToeffiPy is a fully [NumPy](https://numpy.org/) based autograd and deep learning library for 
-[Python 3.7+](https://www.python.org/). The core tensor class of ToeffiPy is highly inspired by the 
+[Python 3.7+](https://www.python.org/). The core tensor class of ToeffiPy is inspired by the 
 [live coding challenge](https://www.youtube.com/watch?v=RxmBukb-Om4&list=PLeDtc0GP5ICldMkRg-DkhpFX1rRBNHTCs) 
 of [Joel Grus](https://github.com/joelgrus/). His code can be found in [this](https://github.com/joelgrus/autograd/) 
 repository. The user experience (nn.Module etc.) of ToeffiPy should be similar to [PyTorch](https://pytorch.org/). 
 The main purpose of this library is educational. ToeffiPy should give an inside about how a modern autograd/deep 
 learning library works. To implement operations like a convolution as low level as possible, but also efficient, NumPy 
-was chosen. Since NumPy is highly optimized, ToeffiPy is suitable for small machine learning projects.
+was chosen. Since NumPy is optimized, ToeffiPy is suitable for small machine learning projects.
 
 
 **The full documentation can be found in `docs/html/index.html`.**
